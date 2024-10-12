@@ -13,19 +13,16 @@ import datetime as dt
 import google.generativeai as genai
 import plotly
 import contextlib
-
 import time
 import sys
+
 GOOGLE_API_KEY=('AIzaSyDW-jOhDIzqx5Vs8kwEOX0NxO3vR1BRcYE')
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 app = Flask(__name__)
 
-
-
-
 def LLMreq(data: dict) -> str:
-    prompt = "context: Tell me the prominent trends like the theme and other trends without the example \n prompt:summarize the trends in the data, these are the top starred github repositories stored in a tuple(name,firstparagraph, star count), since this is data scraped the first paragraph sometimes may have some errors:"+str([(i,data[i]["firstparagraph"],data[i]["watchers_count"]) for i in data])
+    prompt = "context: Tell me the prominent trends like the theme and other trends without the example \n prompt:summarize the trends in the data, these are the top 10 most starred github repositories in the last 30 days stored in a tuple(name,firstparagraph, star count), since this is data scraped the first paragraph sometimes may have some errors:"+str([(i,data[i]["firstparagraph"],data[i]["watchers_count"]) for i in data])
     response = model.generate_content(prompt)
     return(response.text)
 
@@ -95,6 +92,9 @@ try:
     else:
         print("Data.csv is up to date")
     print()
+    
+    
+    
 except Exception:
     # Data collection
     print("No data.csv found, starting data collection")
@@ -121,7 +121,7 @@ df['watchers_count'] = pd.to_numeric(df['watchers_count'])
 df["language"] = df["language"].fillna("No language")
 df["firstparagraph"] = df["firstparagraph"].fillna("No paragraph")
 data = df.to_dict(orient='index')
-df.to_csv("data.csv")
+df.to_csv("data.csv", index=False)
 
 
 
@@ -207,69 +207,139 @@ def index() -> None:
     html = """
     <!DOCTYPE html>
     <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Trending GitHub Repositories</title>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    </head>
-    <body>
-        <h1>Trending GitHub Repositories</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending GitHub Repositories</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.5em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 2em;
+            margin-top: 40px;
+        }
+        #repoTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        #repoTable th, #repoTable td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        #repoTable th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        #repoTable tr:hover {
+            background-color: #f5f5f5;
+        }
+        #repoTable a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        #repoTable a:hover {
+            text-decoration: underline;
+        }
+        #chart {
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: #333 !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: #3498db !important;
+            color: white !important;
+            border: 1px solid #3498db !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trending GitHub Repositories</h1>
+    
+    <h2>Repository Table</h2>
+    <table id="repoTable" class="display">
+        <thead>
+            <tr>
+                <th>Ranking</th>
+                <th>Name</th>
+                <th>Language</th>
+                <th>Stars</th>
+                <th>URL</th>
+                <th>Date</th>
+                <th>Forks</th>
+                <th>Fork?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for repo in data.values() %}
+            <tr>
+                <td>{{ repo["index"] }}</td>
+                <td>{{ repo["name"] }}</td>
+                <td>{{ repo["language"] or "N/A" }}</td>
+                <td>{{ repo["watchers_count"] }}</td>
+                <td><a href="{{ repo["html_url"] }}" target="_blank">{{ repo["html_url"] }}</a></td>
+                <td>{{ repo["date"] }}</td>
+                <td>{{ repo["forks"] }}</td>
+                <td>{{ repo["Fork?"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h2>Repository Charts</h2>
+    <div id="chart"></div>
+    
+    <script>
+        $(document).ready(function() {
+            $('#repoTable').DataTable();
+        });
         
-        <h2>Repository Table</h2>
-        <table id="repoTable" class="display">
-            <thead>
-                <tr>
-                    <th>ranking</th>
-                    <th>Name</th>
-                    <th>Language</th>
-                    <th>Stars</th>
-                    <th>URL</th>
-                    <th>Date</th>
-                    <th>Forks</th>
-                    <th>Fork?</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                {% for repo in data.values() %}
-                <tr>
-                    <td>{{ repo["index"] }}</td>
-                    <td>{{ repo["name"] }}</td>
-                    <td>{{ repo["language"] or "N/A" }}</td>
-                    <td>{{ repo["watchers_count"] }}</td>
-                    <td><a href="{{ repo["html_url"] }}" target="_blank">{{ repo["html_url"] }}</a></td>
-                    <td>{{ repo["date"] }}</td>
-                    <td>{{ repo["forks"] }}</td>
-                    <td>{{ repo["Fork?"] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-        <h2>Repository Charts</h2>
-        <div id="chart" style="width:100%;height:1200px;"></div>
-        
-        <script>
-            $(document).ready(function() {
-                $('#repoTable').DataTable();
-            });
-            
-            var graphs = {{graphJSON | safe}};
-            Plotly.plot('chart', graphs, {});
-        </script>
-    </body>
-    </html>
+        var graphs = {{graphJSON | safe}};
+        Plotly.plot('chart', graphs, {});
+    </script>
+</body>
+</html>
     """
     return render_template_string(html, graphJSON=graphJSON, data=data)
 
 def open_browser() -> None:
         webbrowser.open_new("http://127.0.0.1:5000")
 
-Timer(1, open_browser).start()
-app.run(port=5000)
-    
+if __name__ == "__main__":
+    Timer(1, open_browser).start()
+    app.run()
 
+    
