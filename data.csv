@@ -1,232 +1,240 @@
 name,html_url,language,watchers_count,firstparagraph,date,forks,Fork?,index
-WinampDesktop/winamp,https://github.com/WinampDesktop/winamp,C++,9375,"Winamp is a multimedia player launched in 1997, iconic for its flexibility and wide compatibility with audio formats. Originally developed by Nullsoft, it gained massive popularity with still millions of users. Its development slowed down, but now, its source code was opened to the community, allowing developers to improve and modernize the player to meet current user needs.",2024-09-28,2742,False,0
-stackblitz/bolt.new,https://github.com/stackblitz/bolt.new,TypeScript,4400,No paragraph,2024-09-28,530,False,1
-hijkzzz/Awesome-LLM-Strawberry,https://github.com/hijkzzz/Awesome-LLM-Strawberry,No language,4326,    ,2024-09-21,229,False,2
-nadimkobeissi/mkbsd,https://github.com/nadimkobeissi/mkbsd,Python,3613,Because selling out is bad,2024-09-28,471,False,3
-bklieger-groq/g1,https://github.com/bklieger-groq/g1,Python,3611,"This is an early prototype of using prompting strategies to improve the LLM's reasoning capabilities through o1-like reasoning chains. This allows the LLM to ""think"" and solve logical problems that usually otherwise stump leading models. Unlike o1, all the reasoning tokens are shown, and the app uses an open source model.",2024-09-21,332,False,4
-Doriandarko/o1-engineer,https://github.com/Doriandarko/o1-engineer,Python,2677,No paragraph,2024-09-28,279,False,5
-xjdr-alt/entropix,https://github.com/xjdr-alt/entropix,TypeScript,2156,Entropy Based Sampling and Parallel CoT Decoding,2024-10-05,227,False,6
-VadimBoev/FlappyBird,https://github.com/VadimBoev/FlappyBird,C,2004,No paragraph,2024-09-21,126,False,7
-Flowseal/zapret-discord-youtube,https://github.com/Flowseal/zapret-discord-youtube,Batchfile,1745,Caution,2024-10-12,88,False,8
-ben-n93/SQL-tips-and-tricks,https://github.com/ben-n93/SQL-tips-and-tricks,SQL,1671,A (somewhat opinionated) list of SQL tips and tricks that I've picked up over the years.,2024-09-21,61,False,9
-openai/openai-realtime-console,https://github.com/openai/openai-realtime-console,JavaScript,1582,"The OpenAI Realtime Console is intended as an inspector and interactive API reference
+stackblitz/bolt.new,https://github.com/stackblitz/bolt.new,TypeScript,4816,No paragraph,2024-10-01,743,False,0
+nadimkobeissi/mkbsd,https://github.com/nadimkobeissi/mkbsd,Python,3637,Because selling out is bad,2024-10-01,460,False,1
+Flowseal/zapret-discord-youtube,https://github.com/Flowseal/zapret-discord-youtube,Batchfile,2788,Caution,2024-10-15,121,False,2
+SWivid/F5-TTS,https://github.com/SWivid/F5-TTS,Python,2749,"
+
+
+",2024-10-15,220,False,3
+Doriandarko/o1-engineer,https://github.com/Doriandarko/o1-engineer,Python,2707,No paragraph,2024-09-24,283,False,4
+xjdr-alt/entropix,https://github.com/xjdr-alt/entropix,TypeScript,2481,Entropy Based Sampling and Parallel CoT Decoding,2024-10-08,253,False,5
+ben-n93/SQL-tips-and-tricks,https://github.com/ben-n93/SQL-tips-and-tricks,SQL,1687,A (somewhat opinionated) list of SQL tips and tricks that I've picked up over the years.,2024-09-24,61,False,6
+openai/openai-realtime-console,https://github.com/openai/openai-realtime-console,JavaScript,1681,"The OpenAI Realtime Console is intended as an inspector and interactive API reference
 for the OpenAI Realtime API. It comes packaged with two utility libraries,
 openai/openai-realtime-api-beta
 that acts as a Reference Client (for browser and Node.js) and
 /src/lib/wavtools which allows for simple audio
-management in the browser.",2024-10-05,481,False,10
-zml/zml,https://github.com/zml/zml,Zig,1510,"At ZML, we are creating exciting AI products on top of our high-performance
+management in the browser.",2024-10-08,529,False,7
+jy0205/Pyramid-Flow,https://github.com/jy0205/Pyramid-Flow,Python,1615,[Paper] [Project Page ✨] [Model 🚀] [demo 🤗],2024-10-08,143,False,8
+zml/zml,https://github.com/zml/zml,Zig,1525,"At ZML, we are creating exciting AI products on top of our high-performance
 AI inference stack. Our stack is built for production, using the amazing
 Zig language, MLIR, and the
-power of Bazel.",2024-09-21,54,False,11
-QiuYannnn/Local-File-Organizer,https://github.com/QiuYannnn/Local-File-Organizer,Python,1434,"Tired of digital clutter? Overwhelmed by disorganized files scattered across your computer? Let AI do the heavy lifting! The Local File Organizer is your personal organizing assistant, using cutting-edge AI to bring order to your file chaos - all while respecting your privacy.",2024-09-28,94,False,12
-lds133/weather_landscape,https://github.com/lds133/weather_landscape,Python,1260,Visualizing Weather Forecasts Through Landscape Imagery,2024-09-21,51,False,13
-zlwaterfield/scramble,https://github.com/zlwaterfield/scramble,JavaScript,1193,Scramble is an open-source Chrome extension that leverages AI to enhance your writing directly in your browser. It's designed to be a more customizable and privacy-respecting alternative to Grammarly.,2024-09-21,50,False,14
-EOS-team/EOS,https://github.com/EOS-team/EOS,C,1164,"
+power of Bazel.",2024-09-24,54,False,9
+QiuYannnn/Local-File-Organizer,https://github.com/QiuYannnn/Local-File-Organizer,Python,1461,"Tired of digital clutter? Overwhelmed by disorganized files scattered across your computer? Let AI do the heavy lifting! The Local File Organizer is your personal organizing assistant, using cutting-edge AI to bring order to your file chaos - all while respecting your privacy.",2024-09-24,99,False,10
+lds133/weather_landscape,https://github.com/lds133/weather_landscape,Python,1292,Visualizing Weather Forecasts Through Landscape Imagery,2024-09-24,55,False,11
+cr4n5/XiaoYuanKouSuan,https://github.com/cr4n5/XiaoYuanKouSuan,Python,1238,"
 
-",2024-09-28,170,False,15
-ImagineAILab/ai-by-hand-excel,https://github.com/ImagineAILab/ai-by-hand-excel,No language,1149,AI by Hand ✍️ Exercises in Excel,2024-09-21,145,False,16
-menyifang/MIMO,https://github.com/menyifang/MIMO,No language,1147,"MIMO: Controllable Character Video Synthesis with Spatial Decomposed Modeling
+
+
+",2024-10-15,159,False,12
+zlwaterfield/scramble,https://github.com/zlwaterfield/scramble,JavaScript,1209,"Scramble is an open-source Chrome extension that leverages AI to enhance your writing directly in your browser. It's designed to be a more customizable alternative to Grammarly by using specific prompts and allowing you to configure the LLM provider, model, and endpoint.",2024-09-24,51,False,13
+menyifang/MIMO,https://github.com/menyifang/MIMO,No language,1196,"MIMO: Controllable Character Video Synthesis with Spatial Decomposed Modeling
 Yifang Men,
 Yuan Yao,
 Miaomiao Cui,
-Liefeng Bo",2024-09-28,46,False,17
-konrad-gajdus/miniMNIST-c,https://github.com/konrad-gajdus/miniMNIST-c,C,1044,This project implements a minimal neural network in C for classifying handwritten digits from the MNIST dataset. The entire implementation is  ~200 lines of code and uses only the standard C library.,2024-09-21,105,False,18
-huggingface/chat-macOS,https://github.com/huggingface/chat-macOS,No language,1024,"
+Liefeng Bo",2024-10-01,48,False,14
+EOS-team/EOS,https://github.com/EOS-team/EOS,C,1169,"
 
-",2024-09-28,32,False,19
-lamm-mit/PDF2Audio,https://github.com/lamm-mit/PDF2Audio,Jupyter Notebook,1013,"This code can be used to convert PDFs into audio podcasts, lectures, summaries, and more. It uses OpenAI's GPT models for text generation and text-to-speech conversion. You can also edit a draft transcript (multiple times) and provide specific comments, or overall directives on how it could be adapted or improved.",2024-09-28,129,False,20
-jy0205/Pyramid-Flow,https://github.com/jy0205/Pyramid-Flow,Python,960,[Paper] [Project Page ✨] [Model 🚀] [demo 🤗],2024-10-12,78,False,21
-baaivision/Emu3,https://github.com/baaivision/Emu3,Python,938,"Emu3 Team, BAAI",2024-09-28,26,False,22
-cr4n5/XiaoYuanKouSuan,https://github.com/cr4n5/XiaoYuanKouSuan,Python,799,本项目仅供学习和研究使用请于24小时内删除。使用本项目所产生的任何后果由使用者自行承担。在使用本项目之前，请确保您已充分了解相关法律法规，并确保您的行为符合所在国家或地区的法律要求。未经授权的情况下，请勿将本项目用于商业用途或其他非法用途。,2024-10-12,101,False,23
-ryujinx-mirror/ryujinx,https://github.com/ryujinx-mirror/ryujinx,C#,796,"As of now, the ryujinx-mirror/ryujinx repository serves as a downstream hard-fork of the original Ryujinx project. For the time being, this fork won't be accepting any new major changes until further information arises. We have reconstructed the essential build infrastructure, and you can download nightly binaries for Windows, Linux, and MacOS from the latest release.",2024-10-05,366,False,24
-pencilresearch/OpenScanner,https://github.com/pencilresearch/OpenScanner,Swift,792,"Open Scanner is a fast, free document scanning app for iPhone. You can download it from the App Store.",2024-09-21,37,False,25
-HiveSpaceAI/HiveSpace,https://github.com/HiveSpaceAI/HiveSpace,JavaScript,789,"
-  A privacy-focused, local-first, open-source, and ready-to-use alternative for Notion & Miro. 
-  One hyper-fused platform for wildly creative minds.
-",2024-09-21,310,False,26
-SoundLineDev/SoundLine,https://github.com/SoundLineDev/SoundLine,TypeScript,779,"
-  A privacy-focused, local-first, open-source, and ready-to-use alternative for Notion & Miro. 
-  One hyper-fused platform for wildly creative minds.
-",2024-09-21,309,False,27
-Nutlope/napkins,https://github.com/Nutlope/napkins,TypeScript,764,"
+",2024-09-24,170,False,15
+huggingface/chat-macOS,https://github.com/huggingface/chat-macOS,No language,1043,"
+
+",2024-10-01,37,False,16
+lamm-mit/PDF2Audio,https://github.com/lamm-mit/PDF2Audio,Jupyter Notebook,1022,"This code can be used to convert PDFs into audio podcasts, lectures, summaries, and more. It uses OpenAI's GPT models for text generation and text-to-speech conversion. You can also edit a draft transcript (multiple times) and provide specific comments, or overall directives on how it could be adapted or improved.",2024-09-24,135,False,17
+baaivision/Emu3,https://github.com/baaivision/Emu3,Python,960,"Emu3 Team, BAAI",2024-10-01,26,False,18
+ryujinx-mirror/ryujinx,https://github.com/ryujinx-mirror/ryujinx,C#,920,"As of now, the ryujinx-mirror/ryujinx repository serves as a downstream hard-fork of the original Ryujinx project. For the time being, this fork won't be accepting any new major changes until further information arises. We have reconstructed the essential build infrastructure, and you can download nightly binaries for Windows, Linux, and MacOS from the latest release.",2024-10-08,385,False,19
+NirDiamant/Prompt_Engineering,https://github.com/NirDiamant/Prompt_Engineering,Jupyter Notebook,848,"
+
+
+",2024-10-15,88,False,20
+pencilresearch/OpenScanner,https://github.com/pencilresearch/OpenScanner,Swift,801,"Open Scanner is a fast, free document scanning app for iPhone. You can download it from the App Store.",2024-09-24,38,False,21
+GAIR-NLP/O1-Journey,https://github.com/GAIR-NLP/O1-Journey,No language,790,Report | Walnut Plan | Citation,2024-10-08,17,False,22
+KoriIku/luxirty-search,https://github.com/KoriIku/luxirty-search,CSS,783,search.luxirty.com,2024-10-08,87,False,23
+Nutlope/napkins,https://github.com/Nutlope/napkins,TypeScript,778,"
   An open source wireframe to app generator. Powered by Llama 3.2 Vision & Together.ai.
-",2024-09-21,99,False,28
-haystackeditor/haystack-editor,https://github.com/haystackeditor/haystack-editor,TypeScript,739,No paragraph,2024-09-28,27,False,29
-abinthomasonline/repo2txt,https://github.com/abinthomasonline/repo2txt,JavaScript,715,https://repo2txt.simplebasedomain.com/,2024-09-28,62,False,30
-KoriIku/luxirty-search,https://github.com/KoriIku/luxirty-search,CSS,688,search.luxirty.com,2024-10-12,78,False,31
-VectorSpaceLab/OmniGen,https://github.com/VectorSpaceLab/OmniGen,No language,686,"We introduce a novel diffusion framework that unifies various image generation tasks within a single model, eliminating the need for task-specific networks or fine-tuning. (Paper)",2024-09-21,12,False,32
-leerob/next-self-host,https://github.com/leerob/next-self-host,TypeScript,684,"This repo shows how to deploy a Next.js app and a PostgreSQL database on a Ubuntu Linux server using Docker and Nginx. It showcases using several features of Next.js like caching, ISR, environment variables, and more.",2024-10-12,74,False,33
-swiftlang/swift-java,https://github.com/swiftlang/swift-java,Swift,661,This repository contains two approaches to Swift/Java interoperability.,2024-09-28,20,False,34
-PatrickJS/awesome-cursorrules,https://github.com/PatrickJS/awesome-cursorrules,No language,660,"
+",2024-09-24,101,False,24
+haystackeditor/haystack-editor,https://github.com/haystackeditor/haystack-editor,TypeScript,764,No paragraph,2024-10-01,29,False,25
+leerob/next-self-host,https://github.com/leerob/next-self-host,TypeScript,761,"This repo shows how to deploy a Next.js app and a PostgreSQL database on a Ubuntu Linux server using Docker and Nginx. It showcases using several features of Next.js like caching, ISR, environment variables, and more.",2024-10-08,94,False,26
+abinthomasonline/repo2txt,https://github.com/abinthomasonline/repo2txt,JavaScript,726,https://repo2txt.simplebasedomain.com/,2024-09-24,61,False,27
+VectorSpaceLab/OmniGen,https://github.com/VectorSpaceLab/OmniGen,No language,696,"We introduce a novel diffusion framework that unifies various image generation tasks within a single model, eliminating the need for task-specific networks or fine-tuning. (Paper)",2024-09-24,13,False,28
+HKUDS/LightRAG,https://github.com/HKUDS/LightRAG,Python,666,No paragraph,2024-10-08,77,False,29
+swiftlang/swift-java,https://github.com/swiftlang/swift-java,Swift,665,This repository contains two approaches to Swift/Java interoperability.,2024-10-01,20,False,30
+HiveSpaceAI/HiveSpace,https://github.com/HiveSpaceAI/HiveSpace,JavaScript,664,"
+  A privacy-focused, local-first, open-source, and ready-to-use alternative for Notion & Miro. 
+  One hyper-fused platform for wildly creative minds.
+",2024-09-24,310,False,31
+yigitkonur/swift-ocr-llm-powered-pdf-to-markdown,https://github.com/yigitkonur/swift-ocr-llm-powered-pdf-to-markdown,Python,661,"Demo video showcasing the conversion of NASA's Apollo 17 flight documents, which include unorganized, horizontally and vertically oriented pages, into well-structured Markdown format without any issues.",2024-09-24,50,False,32
+iAmCorey/awesome-indie-hacker-tools,https://github.com/iAmCorey/awesome-indie-hacker-tools,TypeScript,646,开发第一站，搞定技术栈,2024-10-08,46,False,33
+PsyChip/machina,https://github.com/PsyChip/machina,Python,643,CCTV viewer with realtime object tagger [WIP],2024-10-15,25,False,34
+romboHQ/tailwindcss-motion,https://github.com/romboHQ/tailwindcss-motion,JavaScript,628,"
+",2024-09-24,3,False,35
+OpenSource-O1/Open-O1,https://github.com/OpenSource-O1/Open-O1,Python,626,"
 
 
 
-",2024-09-21,40,False,35
-GAIR-NLP/O1-Journey,https://github.com/GAIR-NLP/O1-Journey,No language,660,Report | Walnut Plan | Citation,2024-10-12,16,False,36
-yigitkonur/swift-ocr-llm-powered-pdf-to-markdown,https://github.com/yigitkonur/swift-ocr-llm-powered-pdf-to-markdown,Python,653,"Demo video showcasing the conversion of NASA's Apollo 17 flight documents, which include unorganized, horizontally and vertically oriented pages, into well-structured Markdown format without any issues.",2024-09-28,48,False,37
-PsyChip/machina,https://github.com/PsyChip/machina,Python,618,CCTV viewer with realtime object tagger [WIP],2024-10-12,20,False,38
-iAmCorey/awesome-indie-hacker-tools,https://github.com/iAmCorey/awesome-indie-hacker-tools,TypeScript,614,开发第一站，搞定技术栈,2024-10-05,44,False,39
-romboHQ/tailwindcss-motion,https://github.com/romboHQ/tailwindcss-motion,JavaScript,599,"
-",2024-09-28,3,False,40
-Lumorti/Quandoom,https://github.com/Lumorti/Quandoom,C++,589,"It is a well-known fact that all useful computational devices ever created are capable of running DOOM. Despite decades of active research, there is yet to be developed a single practical use for quantum computers. This changes today, with the release of Quandoom, a port of the first level of DOOM designed for a quantum computer, given as a single QASM file, using a mere 70,000 qubits and 80 million gates. Although such a quantum computer doesn't exist right now, Quandoom is efficiently simulatable on a classical computer, capable of running at 10-20 fps on my laptop using the accompanying lightweight (150 lines of C++) QASM simulator.",2024-09-28,18,False,41
-withastro/storefront,https://github.com/withastro/storefront,TypeScript,584,Your storefront deserves best-in-class performance without the learning curve.,2024-09-21,68,False,42
-bloomberg/stricli,https://github.com/bloomberg/stricli,TypeScript,582,Build complex CLIs with type safety and no dependencies.,2024-09-28,7,False,43
-marlaman/show-me,https://github.com/marlaman/show-me,Python,581,"Show-Me is an open-source application designed to provide a visual and transparent alternative to traditional Large Language Model (LLM) interactions. It breaks down complex questions into a series of reasoned sub-tasks, allowing users to understand the LLM's step-by-step thought process.  The application uses LangChain to interact with LLMs and visualizes the reasoning process using a dynamic graph interface.",2024-09-28,57,False,44
-mazzzystar/tinymind,https://github.com/mazzzystar/tinymind,TypeScript,580,"Turn your GitHub into a blog & memo data storage place with one-click Sign in. No server needed - every input automatically syncs to your GitHub repository.
-https://tinymind.me",2024-09-21,43,False,45
-OpenSource-O1/Open-O1,https://github.com/OpenSource-O1/Open-O1,Python,579,"
+",2024-10-08,17,False,36
+ChaosJulien/XiaoYuanKouSuan_Auto,https://github.com/ChaosJulien/XiaoYuanKouSuan_Auto,Python,624,用于小猿口算的基于Python的自动答题工具,2024-10-15,74,False,37
+Lumorti/Quandoom,https://github.com/Lumorti/Quandoom,C++,604,"It is a well-known fact that all useful computational devices ever created are capable of running DOOM. Despite decades of active research, there is yet to be developed a single practical use for quantum computers. This changes today, with the release of Quandoom, a port of the first level of DOOM designed for a quantum computer, given as a single QASM file, using a mere 70,000 qubits and 80 million gates. Although such a quantum computer doesn't exist right now, Quandoom is efficiently simulatable on a classical computer, capable of running at 10-20 fps on my laptop using the accompanying lightweight (150 lines of C++) QASM simulator.",2024-10-01,18,False,38
+bloomberg/stricli,https://github.com/bloomberg/stricli,TypeScript,604,Build complex CLIs with type safety and no dependencies.,2024-09-24,7,False,39
+alebeck/boring,https://github.com/alebeck/boring,Go,602,"  
+",2024-09-24,16,False,40
+leerob/vim-for-react-devs,https://github.com/leerob/vim-for-react-devs,TypeScript,594,by leerob,2024-09-24,25,False,41
+withastro/storefront,https://github.com/withastro/storefront,TypeScript,587,Your storefront deserves best-in-class performance without the learning curve.,2024-09-24,68,False,42
+marlaman/show-me,https://github.com/marlaman/show-me,Python,585,"Show-Me is an open-source application designed to provide a visual and transparent alternative to traditional Large Language Model (LLM) interactions. It breaks down complex questions into a series of reasoned sub-tasks, allowing users to understand the LLM's step-by-step thought process.  The application uses LangChain to interact with LLMs and visualizes the reasoning process using a dynamic graph interface.",2024-10-01,58,False,43
+lifeiteng/OmniSenseVoice,https://github.com/lifeiteng/OmniSenseVoice,Python,585,"Built on SenseVoice, Omni SenseVoice is optimized for lightning-fast inference and precise timestamps—giving you a smarter, faster way to handle audio transcription!",2024-09-24,14,False,44
+Brayden/starbasedb,https://github.com/Brayden/starbasedb,TypeScript,575,"
 
 
 
-",2024-10-05,16,False,46
-leerob/vim-for-react-devs,https://github.com/leerob/vim-for-react-devs,TypeScript,578,by leerob,2024-09-28,25,False,47
-AimRT/AimRT,https://github.com/AimRT/AimRT,C++,561,English | 中文,2024-09-28,67,False,48
-alebeck/boring,https://github.com/alebeck/boring,Go,552,"  
-",2024-09-28,15,False,49
-Azure-Samples/aoai-realtime-audio-sdk,https://github.com/Azure-Samples/aoai-realtime-audio-sdk,Python,552,"Welcome to the Public Preview for Azure OpenAI /realtime using gpt-4o-realtime-preview! This repository provides documentation, standalone libraries, and sample code for using /realtime -- applicable to both Azure OpenAI and standard OpenAI v1 endpoint use.",2024-10-05,70,False,50
-querylab/lazywarden,https://github.com/querylab/lazywarden,Python,549,"Lazywarden is a Python automation tool designed to Backup and Restore data from your vault, including Bitwarden attachments. It allows you to upload backups to multiple cloud storage services and receive notifications across multiple platforms. It also offers AES encrypted backups and uses key derivation with Argon2, ensuring maximum security for your data.",2024-09-28,9,False,51
-ChaosJulien/XiaoYuanKouSuan_Auto,https://github.com/ChaosJulien/XiaoYuanKouSuan_Auto,Python,545,用于小猿口算的基于Python的自动答题工具,2024-10-12,58,False,52
-leerob/next-music-player,https://github.com/leerob/next-music-player,TypeScript,529,A nice GUI for playing/viewing local media files.,2024-09-21,43,False,53
-Brayden/starbasedb,https://github.com/Brayden/starbasedb,TypeScript,526,"
+",2024-10-01,11,False,45
+AimRT/AimRT,https://github.com/AimRT/AimRT,C++,574,English | 中文,2024-09-24,68,False,46
+Azure-Samples/aoai-realtime-audio-sdk,https://github.com/Azure-Samples/aoai-realtime-audio-sdk,Python,570,"Welcome to the Public Preview for Azure OpenAI /realtime using gpt-4o-realtime-preview! This repository provides documentation, standalone libraries, and sample code for using /realtime -- applicable to both Azure OpenAI and standard OpenAI v1 endpoint use.",2024-10-08,78,False,47
+jbilcke-hf/FacePoke,https://github.com/jbilcke-hf/FacePoke,JavaScript,566,A real-time head transformation app.,2024-10-08,52,False,48
+qifi-dev/qrs,https://github.com/qifi-dev/qrs,TypeScript,566,"
 
+",2024-10-08,28,False,49
+querylab/lazywarden,https://github.com/querylab/lazywarden,Python,560,"Lazywarden is a Python automation tool designed to Backup and Restore data from your vault, including Bitwarden attachments. It allows you to upload backups to multiple cloud storage services and receive notifications across multiple platforms. It also offers AES encrypted backups and uses key derivation with Argon2, ensuring maximum security for your data.",2024-09-24,11,False,50
+huggingface/evaluation-guidebook,https://github.com/huggingface/evaluation-guidebook,Python,558,"If you've ever wondered how to make sure an LLM performs well on your specific task, this guide is for you!
+It covers the different ways you can evaluate a model, guides on designing your own evaluations, and tips and tricks from practical experience.",2024-10-15,32,False,51
+panphp/pan,https://github.com/panphp/pan,PHP,551,"
 
-
-",2024-10-05,10,False,54
-jbilcke-hf/FacePoke,https://github.com/jbilcke-hf/FacePoke,JavaScript,524,A real-time head transformation app.,2024-10-12,49,False,55
-qifi-dev/qrs,https://github.com/qifi-dev/qrs,TypeScript,505,"
-
-",2024-10-05,25,False,56
-NirDiamant/Prompt_Engineering,https://github.com/NirDiamant/Prompt_Engineering,Jupyter Notebook,490,"
-
-
-",2024-10-12,47,False,57
-microsoft/code-push-server,https://github.com/microsoft/code-push-server,TypeScript,478,"CodePush is an App Center feature that enables React Native developers to deploy mobile app updates directly to their users’ devices. It consists of two parts: CodePush Server where developers can publish app updates to (e.g. JS, HTML, CSS or image changes), and CodePush React Native Client SDK that enables querying for updates from within an app.",2024-09-28,93,False,58
-frost-beta/sisi,https://github.com/frost-beta/sisi,TypeScript,477,"CLI tool for semantic image search, locally without using third party APIs.",2024-09-21,17,False,59
-teslamotors/ttpoe,https://github.com/teslamotors/ttpoe,C,467,"At HotChips 2024, Tesla announced the open-sourcing of the Tesla Transport Protocol over Ethernet (TTPoE), represented on this GitHub repo.",2024-09-21,37,False,60
-Junyi42/monst3r,https://github.com/Junyi42/monst3r,No language,465,"MonST3R  processes a dynamic video to produce a time-varying dynamic point cloud, along with per-frame camera poses and intrinsics, in a predominantly feed-forward manner. This representation then enables the efficient computation of downstream tasks, such as video depth estimation and dynamic/static scene segmentation.",2024-10-12,9,False,61
-andrearaponi/dito,https://github.com/andrearaponi/dito,Go,463,Advanced Layer 7 Reverse Proxy Server,2024-10-12,8,False,62
-openai/openai-realtime-api-beta,https://github.com/openai/openai-realtime-api-beta,JavaScript,449,"This repository contains a reference client aka sample library for connecting
+",2024-10-15,20,False,52
+jasonxtn/Argus,https://github.com/jasonxtn/Argus,Python,527,"
+   A Python-based toolkit for  Information Gathering and Reconnaissance
+",2024-10-08,69,False,53
+Junyi42/monst3r,https://github.com/Junyi42/monst3r,No language,522,"MonST3R  processes a dynamic video to produce a time-varying dynamic point cloud, along with per-frame camera poses and intrinsics, in a predominantly feed-forward manner. This representation then enables the efficient computation of downstream tasks, such as video depth estimation and dynamic/static scene segmentation.",2024-10-08,14,False,54
+adriankarlen/textfox,https://github.com/adriankarlen/textfox,CSS,518,a port of spotify tui to firefox,2024-10-15,10,False,55
+andrearaponi/dito,https://github.com/andrearaponi/dito,Go,516,Advanced Layer 7 Reverse Proxy Server,2024-10-15,10,False,56
+openreasoner/openr,https://github.com/openreasoner/openr,Python,511,"
+Paper
+    ·
+    Tutorial
+    ·
+    Code
+    ·
+    Docs
+    ·
+    Data
+    ·
+    Model
+    ·
+    Issue
+",2024-10-15,24,False,57
+microsoft/code-push-server,https://github.com/microsoft/code-push-server,TypeScript,491,"CodePush is an App Center feature that enables React Native developers to deploy mobile app updates directly to their users’ devices. It consists of two parts: CodePush Server where developers can publish app updates to (e.g. JS, HTML, CSS or image changes), and CodePush React Native Client SDK that enables querying for updates from within an app.",2024-10-01,103,False,58
+openai/openai-realtime-api-beta,https://github.com/openai/openai-realtime-api-beta,JavaScript,489,"This repository contains a reference client aka sample library for connecting
 to OpenAI's Realtime API.
 This library is in beta and should not be treated as a final implementation.
-You can use it to easily prototype conversational apps.",2024-10-05,81,False,63
-Nutlope/blinkshot,https://github.com/Nutlope/blinkshot,TypeScript,434,"
+You can use it to easily prototype conversational apps.",2024-10-08,93,False,59
+WEIFENG2333/AsrTools,https://github.com/WEIFENG2333/AsrTools,Python,472,🎙️✨ AsrTools：智能语音转字幕文本工具,2024-09-24,40,False,60
+Nutlope/blinkshot,https://github.com/Nutlope/blinkshot,TypeScript,469,"
   An open source real-time AI image generator. Powered by Flux through Together.ai.
-",2024-10-05,57,False,64
-livewire/flux,https://github.com/livewire/flux,Blade,413,Flux is the official UI component library for Livewire.,2024-09-21,37,False,65
-jasonxtn/Argus,https://github.com/jasonxtn/Argus,Python,411,"
-   A Python-based toolkit for  Information Gathering and Reconnaissance
-",2024-10-05,53,False,66
-misyltoad/frog-protocols,https://github.com/misyltoad/frog-protocols,Meson,408,Let's create Wayland Protocols but much more iterative.,2024-09-28,5,False,67
-punnerud/Local_Knowledge_Graph,https://github.com/punnerud/Local_Knowledge_Graph,Python,389,No paragraph,2024-09-21,31,False,68
-Faceplugin-ltd/Face-Recognition-SDK,https://github.com/Faceplugin-ltd/Face-Recognition-SDK,No language,383,"Experience our face recognition SDK Top-ranked on NIST FRVT , coupled with iBeta level 2 certified liveness detection SDK that effectively safeguards against printed photos, video replay, 3D masks, and deepfake threats, ensuring top-tier security.
-This is on-premise face recognition SDK which means everything is processed in your device and NO data leaves the device
-",2024-09-21,340,False,69
-CaraJ7/MMSearch,https://github.com/CaraJ7/MMSearch,Python,369,"
-
-",2024-09-21,27,False,70
-huggingface/evaluation-guidebook,https://github.com/huggingface/evaluation-guidebook,Python,357,"If you've ever wondered how to make sure an LLM performs well on your specific task, this guide is for you!
-It covers the different ways you can evaluate a model, guides on designing your own evaluations, and tips and tricks from practical experience.",2024-10-12,24,False,71
-ohayonguy/PMRF,https://github.com/ohayonguy/PMRF,Python,355,[Paper] [Project Page] [Demo],2024-10-05,18,False,72
-vietanhdev/llama-assistant,https://github.com/vietanhdev/llama-assistant,Python,351,"
-
-",2024-09-28,21,False,73
-rhymes-ai/Aria,https://github.com/rhymes-ai/Aria,Jupyter Notebook,347,"😊 Hugging Face |
+",2024-10-08,60,False,61
+rhymes-ai/Aria,https://github.com/rhymes-ai/Aria,Jupyter Notebook,466,"😊 Hugging Face |
 📄 Paper |
 📚 Blog |
-🌐 WebDemo",2024-10-05,19,False,74
-LangbaseInc/BaseAI,https://github.com/LangbaseInc/BaseAI,TypeScript,347,"
+🌐 WebDemo",2024-10-01,28,False,62
+likuai2010/auto-installer,https://github.com/likuai2010/auto-installer,No language,458,小白鸿蒙开源自助餐:,2024-10-15,22,False,63
+ohayonguy/PMRF,https://github.com/ohayonguy/PMRF,Python,415,[Paper] [Project Page] [Demo],2024-10-08,27,False,64
+misyltoad/frog-protocols,https://github.com/misyltoad/frog-protocols,Meson,411,Let's create Wayland Protocols but much more iterative.,2024-09-24,5,False,65
+hasanharman/form-builder,https://github.com/hasanharman/form-builder,TypeScript,400,This project demonstrates the usage of shadcn-form-builder for building dynamic forms using React Hook Form and Zod for validation.,2024-10-01,34,False,66
+punnerud/Local_Knowledge_Graph,https://github.com/punnerud/Local_Knowledge_Graph,Python,391,No paragraph,2024-09-24,31,False,67
+openai/mle-bench,https://github.com/openai/mle-bench,Python,382,"Code for the paper ""MLE-Bench: Evaluating Machine Learning Agents on Machine Learning Engineering"". We have released the code used to construct the dataset, the evaluation logic, as well as the agents we evaluated for this benchmark.",2024-10-15,34,False,68
+jinweijie/notify-me,https://github.com/jinweijie/notify-me,Kotlin,376,"This Android application captures incoming calls and SMS messages, and forwards the data to a Bark server, via email, or through a webhook. You can receive notifications on other devices using the Bark app, email, or by setting up a custom webhook.",2024-10-08,35,False,69
+CaraJ7/MMSearch,https://github.com/CaraJ7/MMSearch,Python,372,"
+
+",2024-09-24,28,False,70
+lihuithe/podlm-public,https://github.com/lihuithe/podlm-public,Python,366,URL-to-播客-to-小宇宙,2024-10-08,40,False,71
+LangbaseInc/BaseAI,https://github.com/LangbaseInc/BaseAI,TypeScript,364,"
 
 
 
 
 
-",2024-10-05,24,False,75
-lihuithe/podlm-public,https://github.com/lihuithe/podlm-public,Python,344,URL-to-播客-to-小宇宙,2024-10-12,35,False,76
-LeCAR-Lab/dial-mpc,https://github.com/LeCAR-Lab/dial-mpc,Python,343,"[Website]
-[PDF]
-[Arxiv]",2024-09-21,26,False,77
-Faceplugin-ltd/Face-Liveness-Detection-SDK,https://github.com/Faceplugin-ltd/Face-Liveness-Detection-SDK,No language,343,"Our iBeta level 2 Compliant liveness detection SDK excels in identifying and thwarting threats including printed photos, video replay, 3D masks, and deepfake attempts, ensuring robust and reliable authentication.
-This is on-premise liveness detection SDK which means everything is processed in your devices and NO data leaves the device
-",2024-09-21,309,False,78
-hasanharman/form-builder,https://github.com/hasanharman/form-builder,TypeScript,341,This project demonstrates the usage of shadcn-form-builder for building dynamic forms using React Hook Form and Zod for validation.,2024-09-28,32,False,79
-TianxingChen/RoboTwin,https://github.com/TianxingChen/RoboTwin,Python,339,"Yao Mu* †, Tianxing Chen* , Zanxin Chen* , Shijia Peng*,Zeyu Gao, Zhiqian Lan, Yude Zou, Lunkai Lin, Zhiqiang Xie, Ping Luo†.",2024-09-21,60,False,80
-harishsg993010/LLM-Research-Scripts,https://github.com/harishsg993010/LLM-Research-Scripts,Python,329,No paragraph,2024-09-28,31,False,81
-xxss0903/drawstamputils,https://github.com/xxss0903/drawstamputils,TypeScript,325,DrawStampUtils.js,2024-09-28,106,False,82
-outspeed-ai/outspeed,https://github.com/outspeed-ai/outspeed,Python,324,"
+",2024-10-01,24,False,72
+apoorvnandan/tensor.h,https://github.com/apoorvnandan/tensor.h,C,362,Documenting my pov while building this. The objective is to help people understand neural networks from absolute scratch. No pytorch. No numpy. Just maths and C.,2024-10-15,23,False,73
+vietanhdev/llama-assistant,https://github.com/vietanhdev/llama-assistant,Python,357,"
 
-
-
-
-
-",2024-09-21,14,False,83
-GodotHan/TrueGodot,https://github.com/GodotHan/TrueGodot,C++,323,暂时只有QQ群：112652189,2024-10-05,16,False,84
-EnVision-Research/Lotus,https://github.com/EnVision-Research/Lotus,Python,312,"
-
-
-
-",2024-09-28,12,False,85
-evernotegitofficial/evernote-cloud-sdk-windows,https://github.com/evernotegitofficial/evernote-cloud-sdk-windows,C#,312,"A newly-redesigned, simple, workflow-oriented library built on the Evernote Cloud API. It's designed to drop into your app easily and make most common Evernote integrations very simple to accomplish. (And even the more complex integrations easier than they used to be.)",2024-09-28,85,False,86
-rishikanthc/Scriberr,https://github.com/rishikanthc/Scriberr,Svelte,310,"This is Scriberr, a self-hostable AI audio transcription app. Scriberr uses the open-source Whisper models from OpenAI,
+",2024-10-01,21,False,74
+TianxingChen/RoboTwin,https://github.com/TianxingChen/RoboTwin,Python,348,"Yao Mu* †, Tianxing Chen* , Zanxin Chen* , Shijia Peng*,Zeyu Gao, Zhiqian Lan, Yude Zou, Lunkai Lin, Zhiqiang Xie, Ping Luo†.",2024-09-24,61,False,75
+ajnart/subs,https://github.com/ajnart/subs,TypeScript,346,Note,2024-10-15,16,False,76
+souzatharsis/podcastfy,https://github.com/souzatharsis/podcastfy,Python,346,No paragraph,2024-10-08,43,False,77
+xxss0903/drawstamputils,https://github.com/xxss0903/drawstamputils,TypeScript,346,DrawStampUtils.js,2024-09-24,107,False,78
+splitbrain/clipscreen,https://github.com/splitbrain/clipscreen,C++,344,clipscreen is a simple application that creates a virtual monitor that mirrors a portion of your screen. A green rectangle highlights the specified area.,2024-10-15,13,False,79
+GodotHan/WeDot,https://github.com/GodotHan/WeDot,C++,342,暂时只有QQ群：112652189,2024-10-01,17,False,80
+rishikanthc/Scriberr,https://github.com/rishikanthc/Scriberr,Svelte,342,"This is Scriberr, a self-hostable AI audio transcription app. Scriberr uses the open-source Whisper models from OpenAI,
 to transcribe audio files locally on your hardware. It uses the Whisper.cpp high-performance inference engine
-for OpenAI's Whisper. Scriberr also allows you to summarize transcripts using OpenAI's ChatGPT API, with your own custom prompts. Summarization using ollama is also supported.",2024-10-12,11,False,87
-adriankarlen/textfox,https://github.com/adriankarlen/textfox,CSS,307,a port of spotify tui to firefox,2024-10-12,5,False,88
-jinweijie/notify-me,https://github.com/jinweijie/notify-me,Kotlin,305,"This Android application captures incoming calls and SMS messages, and forwards the data to a Bark server, via email, or through a webhook. You can receive notifications on other devices using the Bark app, email, or by setting up a custom webhook.",2024-10-12,29,False,89
-nianticlabs/venator,https://github.com/nianticlabs/venator,Go,304,"
-
-",2024-10-05,15,False,90
-nyxpsi/nyxpsi,https://github.com/nyxpsi/nyxpsi,Rust,296,No paragraph,2024-09-21,6,False,91
-antibitcoin/ReflectionAnyLLM,https://github.com/antibitcoin/ReflectionAnyLLM,HTML,292,No paragraph,2024-09-21,54,False,92
-openai/mle-bench,https://github.com/openai/mle-bench,Python,290,"Code for the paper ""MLE-Bench: Evaluating Machine Learning Agents on Machine Learning Engineering"". We have released the code used to construct the dataset, the evaluation logic, as well as the agents we evaluated for this benchmark.",2024-10-12,24,False,93
-likuai2010/auto-installer,https://github.com/likuai2010/auto-installer,No language,285,小白鸿蒙开源自助餐:,2024-10-12,15,False,94
-ajnart/subs,https://github.com/ajnart/subs,TypeScript,285,Note,2024-10-12,11,False,95
-souzatharsis/podcastfy,https://github.com/souzatharsis/podcastfy,Python,257,"
+for OpenAI's Whisper. Scriberr also allows you to summarize transcripts using OpenAI's ChatGPT API, with your own custom prompts. Summarization using ollama is also supported.",2024-10-08,11,False,81
+harishsg993010/LLM-Research-Scripts,https://github.com/harishsg993010/LLM-Research-Scripts,Python,337,No paragraph,2024-10-01,32,False,82
+disler/poc-realtime-ai-assistant,https://github.com/disler/poc-realtime-ai-assistant,Python,333,"This is a proof of concept for using the OpenAI's Realtime API to chain tools, call o1-preview & o1-mini, structure output responses, and glimpse into the future of AI assistant powered engineering.",2024-10-08,109,False,83
+EnVision-Research/Lotus,https://github.com/EnVision-Research/Lotus,Python,331,"
 
 
 
-",2024-10-05,30,False,96
-PromtEngineer/localGPT-Vision,https://github.com/PromtEngineer/localGPT-Vision,Python,253,"
-
-
-
-",2024-10-05,51,False,97
-balazik/ComfyUI-PuLID-Flux,https://github.com/balazik/ComfyUI-PuLID-Flux,Python,252,PuLID-Flux ComfyUI implementation (Alpha version),2024-10-05,15,False,98
-mainframecomputer/fullmoon-ios,https://github.com/mainframecomputer/fullmoon-ios,Swift,248,No paragraph,2024-10-12,17,False,99
-souzatharsis/podcastfy-demo,https://github.com/souzatharsis/podcastfy-demo,Python,240,Created with ❤️ by Open Source Podcastfy,2024-10-12,20,False,100
-slashml/amd_inference,https://github.com/slashml/amd_inference,Python,219,"
-
-",2024-10-05,5,False,101
-run-llama/voice-chat-pdf,https://github.com/run-llama/voice-chat-pdf,JavaScript,216,This is a LlamaIndex project using Next.js,2024-10-05,40,False,102
-t3dotgg/quickpic,https://github.com/t3dotgg/quickpic,TypeScript,215,I wanted a better way to upscale svgs as pngs so I built it. Also wanted a better way to make images into squares. Open source because why not. Free because it only runs on client.,2024-10-12,13,False,103
-disler/poc-realtime-ai-assistant,https://github.com/disler/poc-realtime-ai-assistant,Python,211,"This is a proof of concept for using the OpenAI's Realtime API to chain tools, call o1-preview & o1-mini, structure output responses, and glimpse into the future of AI assistant powered engineering.",2024-10-12,70,False,104
-safedv/RustiveDump,https://github.com/safedv/RustiveDump,Rust,203,RustiveDump is a Rust-based tool designed to dump the memory of the lsass.exe process using only NT system calls.,2024-10-12,22,False,105
-skydoves/kmp-developer-roadmap,https://github.com/skydoves/kmp-developer-roadmap,Kotlin,201,"
+",2024-09-24,16,False,84
+sihyun-yu/REPA,https://github.com/sihyun-yu/REPA,Python,330," 
+",2024-10-08,9,False,85
+outspeed-ai/outspeed,https://github.com/outspeed-ai/outspeed,Python,328,"
 
 
 
 
-",2024-10-12,8,False,106
-SWivid/F5-TTS,https://github.com/SWivid/F5-TTS,Python,193,"
 
- 
-F5-TTS: Diffusion Transformer with ConvNeXt V2, faster trained and inference. 
-E2 TTS: Flat-UNet Transformer, closest reproduction.
-Sway Sampling: Inference-time flow step sampling strategy, greatly improves performance",2024-10-12,17,False,107
-gisbi-kim/nano-pgo,https://github.com/gisbi-kim/nano-pgo,Python,191,"
-Figure 1: Example Results Visualization. More examples can be found here.",2024-10-05,13,False,108
-MikeWang000000/ClashScan,https://github.com/MikeWang000000/ClashScan,JavaScript,188,No paragraph,2024-10-05,33,False,109
-cloneofsimo/vqgan-training,https://github.com/cloneofsimo/vqgan-training,Python,183,"The famous VAE of latent diffusion models, such as stable diffusion, FLUX, SORA, etc. How are they trained? This is my attempt to write distributed VAE trainer. It is largely based on LDM's VAE",2024-10-05,7,False,110
-LeCAR-Lab/human2humanoid,https://github.com/LeCAR-Lab/human2humanoid,Python,177,Official Implementation for H2O and OmniH2O:,2024-10-05,8,False,111
-langchain-ai/react-voice-agent,https://github.com/langchain-ai/react-voice-agent,HTML,172,This is an implementation of a ReAct-style agent that uses OpenAI's new Realtime API.,2024-10-05,45,False,112
-christianselig/TinyStorage,https://github.com/christianselig/TinyStorage,Swift,172,"
-",2024-10-12,4,False,113
-bigsk05/YuanArithmetic,https://github.com/bigsk05/YuanArithmetic,Python,171,小猿口算各种脚本,2024-10-12,15,False,114
-cepa/aegir-gps-tracker,https://github.com/cepa/aegir-gps-tracker,C,156,"One off challenge to build a custom GPS tracker that sends data to cloud over LTE and Iridium networks. Tested successfully on the expedition yacht S/Y Southern Star while crossing Barents Sea from Norway to Svalbard in the Arctics. Built with RockBLOCK 9603N(Iridium), SIMCOM7600G (LTE/GSM) and STM32 microcontroller (ARM,FreeRTOS).",2024-10-12,8,False,115
-m1guelpf/swift-realtime-openai,https://github.com/m1guelpf/swift-realtime-openai,Swift,155,"
+",2024-09-24,16,False,86
+nianticlabs/venator,https://github.com/nianticlabs/venator,Go,319,"
 
-",2024-10-05,15,False,116
-Andrew-Jang/RAGHub,https://github.com/Andrew-Jang/RAGHub,No language,155,"Welcome to RAGHub, a living collection of new and emerging frameworks, projects, and resources in the Retrieval-Augmented Generation (RAG) ecosystem. This is a community-driven project for r/RAG, where we aim to catalog the rapid growth of RAG tools and projects that are pushing the boundaries of the field.",2024-10-05,12,False,117
-thu-ml/SageAttention,https://github.com/thu-ml/SageAttention,Python,155,This repository provides the official implementation of SageAttention.,2024-10-05,3,False,118
-lanyeeee/jmcomic-downloader,https://github.com/lanyeeee/jmcomic-downloader,Rust,154,"
+",2024-10-01,15,False,87
+i-am-shodan/USBArmyKnife,https://github.com/i-am-shodan/USBArmyKnife,JavaScript,318,"
 
-",2024-10-05,10,False,119
+
+
+",2024-10-01,24,False,88
+talwat/lowfi,https://github.com/talwat/lowfi,Rust,309,"lowfi is a tiny rust app that serves a single purpose: play lofi.
+It'll do this as simply as it can: no albums, no ads, just lofi.",2024-10-01,16,False,89
+PromtEngineer/localGPT-Vision,https://github.com/PromtEngineer/localGPT-Vision,Python,302,"
+
+
+
+",2024-10-08,59,False,90
+skydoves/kmp-developer-roadmap,https://github.com/skydoves/kmp-developer-roadmap,Kotlin,297,"
+
+
+
+
+",2024-10-15,15,False,91
+mainframecomputer/fullmoon-ios,https://github.com/mainframecomputer/fullmoon-ios,Swift,286,No paragraph,2024-10-15,23,False,92
+okwasniewski/react-native-bottom-tabs,https://github.com/okwasniewski/react-native-bottom-tabs,TypeScript,284,"
+Bottom Tabs that use native platform primitives.
+",2024-10-01,9,False,93
+balazik/ComfyUI-PuLID-Flux,https://github.com/balazik/ComfyUI-PuLID-Flux,Python,272,PuLID-Flux ComfyUI implementation (Alpha version),2024-10-08,19,False,94
+souzatharsis/podcastfy-demo,https://github.com/souzatharsis/podcastfy-demo,Python,271,Created with ❤️ by Open Source Podcastfy,2024-10-15,22,False,95
+xmexg/xyks,https://github.com/xmexg/xyks,JavaScript,270,不完全完成的逆向笔记,2024-10-15,46,False,96
+selemondev/spark-ui,https://github.com/selemondev/spark-ui,TypeScript,258,"
+
+",2024-10-01,4,False,97
+Lyall/MetaphorFix,https://github.com/Lyall/MetaphorFix,C++,246,"  
+",2024-10-01,3,False,98
+anuragverma108/WildGuard,https://github.com/anuragverma108/WildGuard,HTML,237,"‘Until we consider animal life to be worthy of the consideration and reverence we bestow upon old books and pictures and historic monuments, there will always be the animal refugee living a precarious life on the edge of extermination, dependent for existence on the charity of a few human beings.’ – Gerald Durrell",2024-10-01,508,False,99
+1andrevich/Re-filter-lists,https://github.com/1andrevich/Re-filter-lists,Python,236,No paragraph,2024-10-01,5,False,100
+run-llama/voice-chat-pdf,https://github.com/run-llama/voice-chat-pdf,JavaScript,232,This is a LlamaIndex project using Next.js,2024-10-08,47,False,101
+t3dotgg/quickpic,https://github.com/t3dotgg/quickpic,TypeScript,224,I wanted a better way to upscale svgs as pngs so I built it. Also wanted a better way to make images into squares. Open source because why not. Free because it only runs on client.,2024-10-08,13,False,102
+sheshbabu/Chital,https://github.com/sheshbabu/Chital,Swift,223,"
+
+",2024-10-01,7,False,103
+a-r-r-o-w/cogvideox-factory,https://github.com/a-r-r-o-w/cogvideox-factory,Python,222,中文阅读,2024-10-01,18,False,104
+safedv/RustiveDump,https://github.com/safedv/RustiveDump,Rust,222,RustiveDump is a Rust-based tool designed to dump the memory of the lsass.exe process using only NT system calls.,2024-10-08,28,False,105
+cloneofsimo/vqgan-training,https://github.com/cloneofsimo/vqgan-training,Jupyter Notebook,221,"The famous VAE of latent diffusion models, such as stable diffusion, FLUX, SORA, etc. How are they trained? This is my attempt to write distributed VAE trainer. It is largely based on LDM's VAE",2024-10-08,8,False,106
+NVlabs/ProtoMotions,https://github.com/NVlabs/ProtoMotions,Python,219,“Primitive or fundamental types of movement that serve as a basis for more complex motions.”,2024-10-01,10,False,107
+imliam/cpx,https://github.com/imliam/cpx,PHP,218,No paragraph,2024-10-01,6,False,108
+trickster0/NamelessC2,https://github.com/trickster0/NamelessC2,Rust,215,"Nameless C2 is a small project I started for fun to get a bit familiar with Rust but I do not have any time to continue working on it,
+hence I am publishing it in hope that some might find it useful to build on top of it since it needs a LOT of work.",2024-10-01,23,False,109
+mio3io/mio3_uv,https://github.com/mio3io/mio3_uv,Python,210,A UV editing support addon I'm creating to make UV unwrapping more enjoyable. It includes features particularly suited for character modeling.,2024-10-15,5,False,110
+christianselig/TinyStorage,https://github.com/christianselig/TinyStorage,Swift,192,"
+",2024-10-15,5,False,111
+bigsk05/YuanArithmetic,https://github.com/bigsk05/YuanArithmetic,Python,189,小猿口算各种脚本,2024-10-15,19,False,112
+Marven11/EtherGhost,https://github.com/Marven11/EtherGhost,Python,186,No paragraph,2024-10-15,6,False,113
+alohe/quicky,https://github.com/alohe/quicky,JavaScript,183,"A CLI tool that streamlines the deployment and management of self-hosted Next.js projects, enabling initialization, deployment from GitHub, updating, deleting, and managing applications, along with effortless setup of domains and SSL certificates, simplifying the entire lifecycle of Next.js apps on remote servers.",2024-10-15,7,False,114
+gradio-app/openai-gradio,https://github.com/gradio-app/openai-gradio,Python,176,is a Python package that makes it very easy for developers to create machine learning apps that are powered by OpenAI's API.,2024-10-15,21,False,115
+kijai/ComfyUI-PyramidFlowWrapper,https://github.com/kijai/ComfyUI-PyramidFlowWrapper,Python,165,todo,2024-10-15,5,False,116
+Telegramm-Scraper/Discord-Scraper,https://github.com/Telegramm-Scraper/Discord-Scraper,No language,161,Discord-Scraper is a tool designed to help Discord members efficiently get in touch with new members. It offers automated features for sending messages to Discord users.,2024-10-15,1,False,117
+GhostRooter0953/discord-voice-ips,https://github.com/GhostRooter0953/discord-voice-ips,TeX,158,Этот репозиторий содержит:,2024-10-15,14,False,118
+Faceplugin-ltd/Open-Source-Face-Recognition-SDK,https://github.com/Faceplugin-ltd/Open-Source-Face-Recognition-SDK,Python,155,"
+",2024-10-15,141,False,119

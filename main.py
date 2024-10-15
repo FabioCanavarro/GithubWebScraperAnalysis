@@ -1,4 +1,4 @@
-#libraries
+### Libraries
 import markdown
 import webbrowser
 from threading import Timer
@@ -16,32 +16,184 @@ import plotly
 import contextlib
 import time
 import sys
+from colorama import Fore
 
-GOOGLE_API_KEY=('AIzaSyDW-jOhDIzqx5Vs8kwEOX0NxO3vR1BRcYE')
+### Global Variables
+GOOGLE_API_KEY = "AIzaSyDW-jOhDIzqx5Vs8kwEOX0NxO3vR1BRcYE"
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel("gemini-1.5-flash")
 app = Flask(__name__)
 
+### Function
 def open_browser() -> None:
-        print("Opening browser")
-        webbrowser.open_new("http://127.0.0.1:5000")
-
-def main():
-    def LLMreq(data: dict) -> str:
-        prompt = "context: Tell me the prominent trends like the theme and other trends without the example \n prompt:summarize the trends in the data, these are the top 10 most starred github repositories in the last 30 days stored in a tuple(name,firstparagraph, star count), since this is data scraped the first paragraph sometimes may have some errors:"+str([(i,data["firstparagraph"],data["watchers_count"]) for i in data])
-        response = model.generate_content(prompt)
-        return(response.text)
-    def get_data(url: str) -> dict:
+    """
+    Opens a web browser and navigates to a specified local URL.
+    This function prints a message indicating that the browser is opening and then launches the default web browser to the specified local address.
+    It is typically used to provide quick access to a web application running on the local server.
     
-        response = req.get(url,headers={"User-Agent": "siti21532704","Accept":"application/json, text/plain, */*","x-github-api-version-selected":"2022-11-28","authorization":"token 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"})
-        print("Response status code:",response.status_code)
+    Returns:
+        None
+    Examples:
+        >>> open_browser()
+    """
+
+    print("Opening browser")
+    webbrowser.open_new("http://127.0.0.1:5000")
+
+# Function to show the opening text of the program
+def load_start()-> None:  # sourcery skip: extract-duplicate-method
+    """
+    Prints a decorative start message for the program. This function outputs a series of 
+    lines and ASCII art to indicate the beginning of the program's execution.
+    The function serves as a visual cue to the user to the title and the creator of the program and shows the start of the program.
+
+    Returns:
+        None
+    """
+    # TODO REPEAT THE ASCII ART
+    print("------------------------------------------------------------------------")
+    print("------------------------------------------------------------------------")
+    print("------------------------------------------------------------------------")
+    try:
+        print(f"""{Fore.GREEN}
+    ________  ___  _________  ___  ___  ___  ___  ________                                               
+    |\   ____\|\  \|\___   ___\\  \|\  \|\  \|\  \|\   __  \                                              
+    \ \  \___|\ \  \|___ \  \_\ \  \\\  \ \  \\\  \ \  \|\ /_                                             
+    \ \  \  __\ \  \   \ \  \ \ \   __  \ \  \\\  \ \   __  \                                            
+    \ \  \|\  \ \  \   \ \  \ \ \  \ \  \ \  \\\  \ \  \|\  \                                           
+    \ \_______\ \__\   \ \__\ \ \__\ \__\ \_______\ \_______\                                          
+        \|_______|\|__|    \|__|  \|__|\|__|\|_______|\|_______|                                          
+    _________  ________  _______   ________   ________  ___  ________   ________                         
+    |\___   ___\\   __  \|\  ___ \ |\   ___  \|\   ___ \|\  \|\   ___  \|\   ____\                        
+    \|___ \  \_\ \  \|\  \ \   __/|\ \  \\ \  \ \  \_|\ \ \  \ \  \\ \  \ \  \___|                        
+        \ \  \ \ \   _  _\ \  \_|/_\ \  \\ \  \ \  \ \\ \ \  \ \  \\ \  \ \  \  ___                      
+        \ \  \ \ \  \\  \\ \  \_|\ \ \  \\ \  \ \  \_\\ \ \  \ \  \\ \  \ \  \|\  \                     
+        \ \__\ \ \__\\ _\\ \_______\ \__\\ \__\ \_______\ \__\ \__\\ \__\ \_______\                    
+            \|__|  \|__|\|__|\|_______|\|__| \|__|\|_______|\|__|\|__| \|__|\|_______|                    
+    ________  _______   ________  ________  ________  ___  _________  ________  ________      ___    ___ 
+    |\   __  \|\  ___ \ |\   __  \|\   __  \|\   ____\|\  \|\___   ___\\   __  \|\   __  \    |\  \  /  /|
+    \ \  \|\  \ \   __/|\ \  \|\  \ \  \|\  \ \  \___|\ \  \|___ \  \_\ \  \|\  \ \  \|\  \   \ \  \/  / /
+    \ \   _  _\ \  \_|/_\ \   ____\ \  \\\  \ \_____  \ \  \   \ \  \ \ \  \\\  \ \   _  _\   \ \    / / 
+    \ \  \\  \\ \  \_|\ \ \  \___|\ \  \\\  \|____|\  \ \  \   \ \  \ \ \  \\\  \ \  \\  \|   \/  /  /  
+    \ \__\\ _\\ \_______\ \__\    \ \_______\____\_\  \ \__\   \ \__\ \ \_______\ \__\\ _\ __/  / /    
+        \|__|\|__|\|_______|\|__|     \|_______|\_________\|__|    \|__|  \|_______|\|__|\|__|\___/ /     
+                                            \|_________|                                  \|___|/      
+    ________  ________   ________  ___           ___    ___ ________  _______   ________                 
+    |\   __  \|\   ___  \|\   __  \|\  \         |\  \  /  /|\_____  \|\  ___ \ |\   __  \                
+    \ \  \|\  \ \  \\ \  \ \  \|\  \ \  \        \ \  \/  / /\|___/  /\ \   __/|\ \  \|\  \               
+    \ \   __  \ \  \\ \  \ \   __  \ \  \        \ \    / /     /  / /\ \  \_|/_\ \   _  _\              
+    \ \  \ \  \ \  \\ \  \ \  \ \  \ \  \____    \/  /  /     /  /_/__\ \  \_|\ \ \  \\  \|             
+    \ \__\ \__\ \__\\ \__\ \__\ \__\ \_______\__/  / /      |\________\ \_______\ \__\\ _\             
+        \|__|\|__|\|__| \|__|\|__|\|__|\|_______|\___/ /        \|_______|\|_______|\|__|\|__|            
+                                                \|___|/                                         
+            """)
+        print(f"""{Fore.YELLOW}
+                        __              ____  
+    /'\_/`\             /\ \            /\  _`\                                                                           
+    /\      \     __     \_\ \     __    \ \ \L\ \  __  __                                                                 
+    \ \ \__\ \  /'__`\   /'_` \  /'__`\   \ \  _ <'/\ \/\ \                                                                
+    \ \ \_/\ \/\ \L\.\_/\ \L\ \/\  __/    \ \ \L\ \ \ \_\ \                                                               
+    \ \_\\ \_\ \__/.\_\ \___,_\ \____\    \ \____/\/`____ \                                                              
+    \/_/ \/_/\/__/\/_/\/__,_ /\/____/     \/___/  `/___/> \                                                             
+    ____          __                      ____         /\___/                                                             
+    /\  _`\       /\ \      __            /\  _`\       \/__/                                                              
+    \ \ \L\_\ __  \ \ \____/\_\    ___    \ \ \/\_\     __      ___      __     __  __     __     _ __   _ __   ___        
+    \ \  _\/'__`\ \ \ '__`\/\ \  / __`\   \ \ \/_/_  /'__`\  /' _ `\  /'__`\  /\ \/\ \  /'__`\  /\`'__\/\`'__\/ __`\      
+    \ \ \/\ \L\.\_\ \ \L\ \ \ \/\ \L\ \   \ \ \L\ \/\ \L\.\_/\ \/\ \/\ \L\.\_\ \ \_/ |/\ \L\.\_\ \ \/ \ \ \//\ \L\ \     
+    \ \_\ \__/.\_\\ \_,__/\ \_\ \____/    \ \____/\ \__/.\_\ \_\ \_\ \__/.\_\\ \___/ \ \__/.\_\\ \_\  \ \_\\ \____/     
+        \/_/\/__/\/_/ \/___/  \/_/\/___/      \/___/  \/__/\/_/\/_/\/_/\/__/\/_/ \/__/   \/__/\/_/ \/_/   \/_/ \/___/      
+    ____                                                                                                                  
+    /\  _`\                                                                                                                
+    \ \ \L\_\_ __   ___     ___ ___                                                                                        
+    \ \  _\/\`'__\/ __`\ /' __` __`\                                                                                      
+    \ \ \/\ \ \//\ \L\ \/\ \/\ \/\ \                                                                                     
+    \ \_\ \ \_\\ \____/\ \_\ \_\ \_\                                                                                    
+        \/_/  \/_/ \/___/  \/_/\/_/\/_/                                                                                    
+    ____                                     _____                       ____            __                      ___      
+    /\  _`\        __                        /\  __`\                    /\  _`\         /\ \                    /\_ \     
+    \ \ \L\ \_ __ /\_\    ___ ___      __    \ \ \/\ \    ___      __    \ \,\L\_\    ___\ \ \___     ___     ___\//\ \    
+    \ \ ,__/\`'__\/\ \ /' __` __`\  /'__`\   \ \ \ \ \ /' _ `\  /'__`\   \/_\__ \   /'___\ \  _ `\  / __`\  / __`\\ \ \   
+    \ \ \/\ \ \/ \ \ \/\ \/\ \/\ \/\  __/    \ \ \_\ \/\ \/\ \/\  __/     /\ \L\ \/\ \__/\ \ \ \ \/\ \L\ \/\ \L\ \\_\ \_ 
+    \ \_\ \ \_\  \ \_\ \_\ \_\ \_\ \____\    \ \_____\ \_\ \_\ \____\    \ `\____\ \____\\ \_\ \_\ \____/\ \____//\____\_
+        \/_/  \/_/   \/_/\/_/\/_/\/_/\/____/     \/_____/\/_/\/_/\/____/     \/_____/\/____/ \/_/\/_/\/___/  \/___/ \/____/
+            """)
+    except Exception:
+        print(f"{Fore.RED}Error in printing the ASCII art")
+        print(f"""{Fore.GREEN}GitHub Trending Repositories Analyzer""")
+        print(f"{Fore.YELLOW}Made by: Fabio Canavarro From Prime One School")
+    print(f"{Fore.WHITE}------------------------------------------------------------------------")
+    print("------------------------------------------------------------------------")
+    print("------------------------------------------------------------------------")
+    print(f"{Fore.GREEN}Starting the program")
+    print()
+    print()
+
+### Main Function
+def main():
+    ### Functions
+    def LLMreq(data: dict) -> str:
+        """
+        Generates a summary of prominent trends from the provided repository data.
+        This function constructs a prompt for a language model using the input data, which includes the top starred GitHub repositories and their details.
+        It then calls the model to generate a textual summary of the trends identified in the data.
+        
+        Args:
+            data (dict): A dictionary containing repository information, including names, first paragraphs, and star counts.
+        Returns:
+            str: A summary of the prominent trends identified in the repository data.
+        Examples:
+            >>> summary = LLMreq({"repo1": {"firstparagraph": "Example paragraph", "watchers_count": 100}})
+            >>> print(summary)
+        """
+
+        prompt = (
+            "context: Tell me the prominent trends like the theme and other trends without the example \n prompt:summarize the trends in the data, these are the top 10 most starred github repositories in the last 30 days stored in a tuple(name,firstparagraph, star count), since this is data scraped the first paragraph sometimes may have some errors:"
+            + str([(i, data["firstparagraph"], data["watchers_count"]) for i in data])
+        )
+        response = model.generate_content(prompt)
+        return response.text
+
+    def get_data(url: str) -> dict:
+        """
+        Retrieves data from a specified URL and processes repository information.
+        This function sends a GET request to the provided URL, extracts relevant repository details, and returns them in a structured dictionary format. 
+        It also handles potential errors and displays a progress bar while processing the repositories.
+        
+        Args:
+            url (str): The URL to fetch data from.
+        Returns:
+            dict: A dictionary containing repository details, including name, URL, language, watchers count, first paragraph of the README, date, forks count, and whether it is a fork.
+        Examples:
+            >>> data = get_data("https://api.github.com/search/repositories?q=language:python")
+            >>> print(data)
+        """
+
+        response = req.get(
+            url,
+            headers={
+                "User-Agent": "siti21532704",
+                "Accept": "application/json, text/plain, */*",
+                "x-github-api-version-selected": "2022-11-28",
+                "authorization": "token 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",
+            },
+        )
+        print("Response status code:", response.status_code)
         if str(response.status_code)[0] == 4:
             return _extracted_from_get_data_6(response, "Error in response")
         if json.loads(response.text)["total_count"] == 0:
             return _extracted_from_get_data_6(response, "No repositories found")
         responses = json.loads(response.text)["items"]
         repo = {
-            i["full_name"]: {"name":i["full_name"],"html_url":i["html_url"],"language":i["language"],"watchers_count": i["watchers_count"], "firstparagraph": "","date":date,"forks":i["forks_count"],"Fork?":i["fork"]}
+            i["full_name"]: {
+                "name": i["full_name"],
+                "html_url": i["html_url"],
+                "language": i["language"],
+                "watchers_count": i["watchers_count"],
+                "firstparagraph": "",
+                "date": date,
+                "forks": i["forks_count"],
+                "Fork?": i["fork"],
+            }
             for i in responses
         }
         total = len(repo)
@@ -51,53 +203,78 @@ def main():
             url = repo[_]["html_url"]
             soup = bs4.BeautifulSoup(req.get(url).text, "html.parser")
             try:
-                main_paragraph = soup.find_all("div",class_="Box-sc-g0xbh4-0 vIPPs")[0]
-                text = main_paragraph.find_all("article",class_="markdown-body entry-content container-lg")[0]
+                main_paragraph = soup.find_all("div", class_="Box-sc-g0xbh4-0 vIPPs")[0]
+                text = main_paragraph.find_all(
+                    "article", class_="markdown-body entry-content container-lg"
+                )[0]
                 firstparagraph = text.find_all("p")[0].text
             except Exception:
                 firstparagraph = "No paragraph"
             repo[_]["firstparagraph"] = firstparagraph
+            
+            # Progress bar
             progress = (index + 1) / total
             filled_length = int(bar_length * progress)
-            bar = '█' * filled_length + '-' * (bar_length - filled_length)
+            bar = "█" * filled_length + "-" * (bar_length - filled_length)
 
             # Clear line and print progress
-            sys.stdout.write('\r')
-            sys.stdout.write(f"Processing repositories: [{bar}] {index + 1}/{total} {progress:.0%}")
+            sys.stdout.write("\r")
+            sys.stdout.write(
+                f"Processing repositories: [{bar}] {index + 1}/{total} {progress:.0%}"
+            )
             sys.stdout.flush()
 
             time.sleep(0.1)
         return repo
 
-    def _extracted_from_get_data_6(response, arg1):
+    def _extracted_from_get_data_6(response, arg1: str) -> None:
+        """
+        Handles error logging.
+        This function is used to replace the repeatable error handling code in the get_data function.
+        
+        Args:
+            response: The response object containing the text to be printed.
+            arg1: A message to be printed alongside the response text.
+
+        Examples:
+            >>> _extracted_from_get_data_6(response, "Error in response")
+        """
         print(response.text)
         print(arg1)
-
-        return {}
+        return None
     
+    ### Start
+    load_start()
     
+    ### Data Collection
     # Initiate the date
     presentDate = dt.datetime.now()
     date = str(presentDate).split(" ")[0]
-    tempdatetimedate = presentDate- dt.timedelta(days=7)
+    tempdatetimedate = presentDate - dt.timedelta(days=7)
     tempdate = str(tempdatetimedate).split(" ")[0]
     data = {}
     starterdate = presentDate - dt.timedelta(days=30)
     # Check if a data.csv file with present info exists
     try:
-        data = pd.read_csv("data.csv").sort_values(by="date",ascending=False).to_dict(orient='index')
-        datetemp = dt.datetime.strptime(data[list(data.keys())[0]]["date"],"%Y-%m-%d")
+        data = (
+            pd.read_csv("data.csv")
+            .sort_values(by="date", ascending=False)
+            .to_dict(orient="index")
+        )
+        datetemp = dt.datetime.strptime(data[list(data.keys())[0]]["date"], "%Y-%m-%d")
         print("Data.csv found")
         if datetemp != presentDate:
             with contextlib.suppress(Exception):
-                if ((presentDate- datetemp).days //7) > 0:
+                if ((presentDate - datetemp).days // 7) > 0:
                     print("data.csv is outdated, updating")
-                    for _ in range((presentDate- datetemp).days //7):
-                        print(f"Starting collection {_+1}/{(presentDate- datetemp).days //7}")
+                    for _ in range((presentDate - datetemp).days // 7):
+                        print(
+                            f"Starting collection {_+1}/{(presentDate- datetemp).days //7}"
+                        )
                         mainurl = f"https://api.github.com/search/repositories?q=created:{tempdate}T00:00:00%2B07:00..{date}T00:00:00%2B07:00&sort=stars&order=desc"
                         tempdict = get_data(mainurl)
                         date = tempdate
-                        tempdatetimedate-= dt.timedelta(days=7)
+                        tempdatetimedate -= dt.timedelta(days=7)
                         tempdate = str(tempdatetimedate).split(" ")[0]
                         data |= tempdict
                         print("finished collection")
@@ -107,119 +284,132 @@ def main():
         else:
             print("Data.csv is up to date")
         print()
-        
-        
-        
+
     except Exception:
         # Data collection
         print("No data.csv found, starting data collection")
-        for _ in range((presentDate- starterdate).days //7):
+        for _ in range((presentDate - starterdate).days // 7):
             print(f"starting collection {_+1}/{((presentDate- starterdate).days //7)}")
             mainurl = f"https://api.github.com/search/repositories?q=created:{tempdate}T00:00:00%2B07:00..{date}T00:00:00%2B07:00&sort=stars&order=desc"
             tempdict = get_data(mainurl)
             date = tempdate
-            tempdatetimedate-= dt.timedelta(days=7)
+            tempdatetimedate -= dt.timedelta(days=7)
             tempdate = str(tempdatetimedate).split(" ")[0]
             data |= tempdict
             print("finished collection")
         print("finished all collections")
         print()
 
-
-
+    ### Data Cleaning and Processing
     # Data initiation
-    df = pd.DataFrame.from_dict(data, orient='index').sort_values(by='watchers_count',ascending=False)
-    df["index"] = [str(i)for i in range(len(data))]
-    df['watchers_count'] = pd.to_numeric(df['watchers_count'])
+    df = pd.DataFrame.from_dict(data, orient="index").sort_values(
+        by="watchers_count", ascending=False
+    )
+    df["index"] = [str(i) for i in range(len(data))]
+    df["watchers_count"] = pd.to_numeric(df["watchers_count"])
 
     # Data cleaning and repairing
     df["language"] = df["language"].fillna("No language")
     df["firstparagraph"] = df["firstparagraph"].fillna("No paragraph")
-    data = df.to_dict(orient='index')
+    data = df.to_dict(orient="index")
 
     # Saving data
     df.to_csv("data.csv", index=False)
 
     # Generate summary using an LLM
-    summary = LLMreq(df[:10]) 
+    summary = LLMreq(df[:10])
     summary_html = markdown.markdown(summary)
 
-
-    # Web app
+    ### Web app
     print("Loading html and website")
-    @app.route('/')
+    
+    # Flask app
+    @app.route("/")
     def index() -> None:
+        """
+        Handles the rendering of the main page for the web application.
+        This function creates a visual representation of GitHub repository data by generating charts and a table.
+        It processes the data to display individual repository stars and average stars by programming language, and returns an HTML template with the rendered content.
+
+        Returns:
+            None
+        """
+
         # Create the DataFrame for the chart
-        langstar = pd.DataFrame({
-            'Language': np.array(df["language"]),
-            'Stars': np.array(df["watchers_count"]),
-            "name": np.array(df["name"])
-        })
-        
+        langstar = pd.DataFrame(
+            {
+                "Language": np.array(df["language"]),
+                "Stars": np.array(df["watchers_count"]),
+                "name": np.array(df["name"]),
+            }
+        )
+
         # Calculate averages for second subplot
-        langstar_grouped = langstar.groupby('Language')['Stars'].mean().reset_index()
-        langstar_grouped = langstar_grouped.sort_values('Stars', ascending=False)
-        
+        langstar_grouped = langstar.groupby("Language")["Stars"].mean().reset_index()
+        langstar_grouped = langstar_grouped.sort_values("Stars", ascending=False)
+
         # Create figure with secondary y-axis
-        fig = make_subplots(rows=2, cols=1,
-                            subplot_titles=('Individual Repository Stars by Language',
-                                            'Average Stars by Language'),
-                            vertical_spacing=0.15)
-        
+        fig = make_subplots(
+            rows=2,
+            cols=1,
+            subplot_titles=(
+                "Individual Repository Stars by Language",
+                "Average Stars by Language",
+            ),
+            vertical_spacing=0.15,
+        )
+
         # First subplot
-        for language in langstar['Language'].unique():
-            mask = langstar['Language'] == language
+        for language in langstar["Language"].unique():
+            mask = langstar["Language"] == language
             fig.add_trace(
                 go.Scatter(
                     x=langstar[mask].index,
-                    y=langstar[mask]['Stars'],
+                    y=langstar[mask]["Stars"],
                     name=language,
-                    mode='markers',
+                    mode="markers",
                     marker=dict(size=6),
                     hovertemplate=f"{language}<br>Stars: %{{y}}<br>Index: %{{x}}<br>Name: %{{text}}",
-                    text=langstar[mask]['name']
+                    text=langstar[mask]["name"],
                 ),
-                row=1, col=1
+                row=1,
+                col=1,
             )
-        
+
         # Second subplot
         fig.add_trace(
             go.Bar(
-                x=langstar_grouped['Language'],
-                y=langstar_grouped['Stars'],
-                name='Average Stars',
-                hovertemplate='Language: %{x}<br>Average Stars: %{y:.0f}',
-                showlegend=False
+                x=langstar_grouped["Language"],
+                y=langstar_grouped["Stars"],
+                name="Average Stars",
+                hovertemplate="Language: %{x}<br>Average Stars: %{y:.0f}",
+                showlegend=False,
             ),
-            row=2, col=1
+            row=2,
+            col=1,
         )
-        
+
         # Update layout
         fig.update_layout(
             height=1200,
             width=1123,
-            title_text='Programming Languages Repository Stars Analysis',
+            title_text="Programming Languages Repository Stars Analysis",
             title_x=0.5,
             showlegend=True,
-            template='plotly_white',
-            legend=dict(
-                yanchor="top",
-                y=0.6,
-                xanchor="left",
-                x=1.02
-            ),
-            margin=dict(r=150)
+            template="plotly_white",
+            legend=dict(yanchor="top", y=0.6, xanchor="left", x=1.02),
+            margin=dict(r=150),
         )
-        
+
         # Update axes
         fig.update_yaxes(type="log", title_text="Number of Stars", row=1, col=1)
         fig.update_xaxes(title_text="Index", row=1, col=1)
         fig.update_yaxes(title_text="Average Number of Stars", row=2, col=1)
         fig.update_xaxes(title_text="Programming Language", tickangle=45, row=2, col=1)
-        
+
         # Create graphJSON
         graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-        
+
         # HTML template
         html = """
         <!DOCTYPE html>
@@ -450,7 +640,7 @@ def main():
                 <tbody>
                     {% for repo in data.values() %}
                     <tr>
-                        <td>{{ repo["index"] }}</td>
+                        <td>{{ (repo["index"]|int + 1)|string }}</td>
                         <td>{{ repo["name"] }}</td>
                         <td>{{ repo["language"] or "N/A" }}</td>
                         <td>{{ repo["watchers_count"] }}</td>
@@ -497,8 +687,11 @@ def main():
     </body>
     </html>
         """
-        return render_template_string(html, graphJSON=graphJSON, data=data, summary_text=summary_html)
-    print("Html and website loaded")
+        return render_template_string(
+            html, graphJSON=graphJSON, data=data, summary_text=summary_html
+        )
+
+    print(f"{Fore.CYAN}Html and website loaded{Fore.WHITE}")
     print()
 
 
@@ -506,5 +699,3 @@ if __name__ == "__main__":
     main()
     Timer(1, open_browser).start()
     app.run()
-    
-    

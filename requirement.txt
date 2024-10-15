@@ -1,0 +1,9 @@
+markdown
+Flask
+requests
+pandas
+numpy
+plotly
+beautifulsoup4
+google-generativeai
+colorama
