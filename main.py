@@ -50,7 +50,6 @@ def load_start()-> None:  # sourcery skip: extract-duplicate-method
     Returns:
         None
     """
-    # TODO REPEAT THE ASCII ART
     print("------------------------------------------------------------------------")
     print("------------------------------------------------------------------------")
     print("------------------------------------------------------------------------")
@@ -144,7 +143,7 @@ def main():
             >>> summary = LLMreq({"repo1": {"firstparagraph": "Example paragraph", "watchers_count": 100}})
             >>> print(summary)
         """
-
+        # TODO: Add more context to the prompt
         prompt = (
             "context: Tell me the prominent trends like the theme and other trends without the example \n prompt:summarize the trends in the data, these are the top 10 most starred github repositories in the last 30 days stored in a tuple(name,firstparagraph, star count), since this is data scraped the first paragraph sometimes may have some errors:"
             + str([(i, data["firstparagraph"], data["watchers_count"]) for i in data])
@@ -173,7 +172,7 @@ def main():
                 "User-Agent": "siti21532704",
                 "Accept": "application/json, text/plain, */*",
                 "x-github-api-version-selected": "2022-11-28",
-                "authorization": "token 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",
+                "authorization": "token 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",
             },
         )
         print("Response status code:", response.status_code)
@@ -181,6 +180,7 @@ def main():
             return _extracted_from_get_data_6(response, "Error in response")
         if json.loads(response.text)["total_count"] == 0:
             return _extracted_from_get_data_6(response, "No repositories found")
+
         responses = json.loads(response.text)["items"]
         repo = {
             i["full_name"]: {
