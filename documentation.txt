@@ -1,8 +1,0 @@
-### Problem Statement
-Staying updated on the latest open-source trends can be challenging. This project aims to track trending repositories on GitHub to help developers identify emerging technologies and popular projects.
-
-### System Design
-- Data Scraper:
-    pass
-- Database as txt:
-    
