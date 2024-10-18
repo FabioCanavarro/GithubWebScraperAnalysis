@@ -143,9 +143,8 @@ def main():
             >>> summary = LLMreq({"repo1": {"firstparagraph": "Example paragraph", "watchers_count": 100}})
             >>> print(summary)
         """
-        # TODO: Add more context to the prompt
         prompt = (
-            "context: Tell me the prominent trends like the theme and other trends without the example \n prompt:summarize the trends in the data, these are the top 10 most starred github repositories in the last 30 days stored in a tuple(name,firstparagraph, star count), since this is data scraped the first paragraph sometimes may have some errors:"
+            "context: Tell me the prominent trends like the theme and other trends without the example \n prompt:summarize the trends in the data, and please recommend some of the technology which will be popular in the future and what kind of new products should i make in github that will produce the same attention and also which future technology(from the github) should i adopt in my product, these are the top 10 most starred github repositories in the last 30 days stored in a tuple(name,firstparagraph, star count), since this is data scraped the first paragraph sometimes may have some errors:"
             + str([(i, data["firstparagraph"], data["watchers_count"]) for i in data])
         )
         response = model.generate_content(prompt)
@@ -276,7 +275,7 @@ def main():
                         tempdatetimedate -= dt.timedelta(days=7)
                         tempdate = str(tempdatetimedate).split(" ")[0]
                         data |= tempdict
-                        print("finished collection")
+                        print(" finished collection")
                     print("finished all collections")
                 else:
                     print("Data.csv is up to date")
@@ -295,7 +294,7 @@ def main():
             tempdatetimedate -= dt.timedelta(days=7)
             tempdate = str(tempdatetimedate).split(" ")[0]
             data |= tempdict
-            print("finished collection")
+            print(" finished collection")
         print("finished all collections")
         print()
 
