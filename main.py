@@ -1,3 +1,7 @@
+# setup:
+# !important modules
+# pip install markdown Flask requests pandas numpy plotly bs4 datetime google.generativeai colorama
+
 ### Libraries
 import markdown
 import webbrowser
