@@ -21,7 +21,7 @@ import contextlib
 import time
 import sys
 from colorama import Fore
-
+from flask_frozen import Freezer
 ### Global Variables
 GOOGLE_API_KEY = "AIzaSyDW-jOhDIzqx5Vs8kwEOX0NxO3vR1BRcYE"
 genai.configure(api_key=GOOGLE_API_KEY)
@@ -704,10 +704,10 @@ def main():
     print(f"{Fore.CYAN}Html and website loaded{Fore.WHITE}")
     print()
 
-
+freezer = Freezer(app)
 if __name__ == "__main__":
     main()
-    
+    freezer.freeze()
     Timer(1, open_browser).start()
     app.run()
 
