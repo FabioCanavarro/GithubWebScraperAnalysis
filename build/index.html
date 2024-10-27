@@ -1,0 +1,1609 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Trending GitHub Repositories - LeetCode Style</title>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <style>
+            :root {
+                --leetcode-black: #1a1a1a;
+                --leetcode-dark-gray: #2d2d2d;
+                --leetcode-gray: #3e3e3e;
+                --leetcode-light-gray: #eff1f6;
+                --leetcode-green: #00b8a3;
+                --leetcode-yellow: #ffc01e;
+                --leetcode-blue: #02a4ff;
+            }
+            
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                color: var(--leetcode-light-gray);
+                margin: 0;
+                padding: 0;
+                background-color: var(--leetcode-black);
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            h1, h2 {
+                color: var(--leetcode-green);
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+                border-bottom: 2px solid var(--leetcode-green);
+                padding-bottom: 10px;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+                margin-top: 30px; 
+                margin-bottom: 20px;
+            }
+            
+            #repoTable {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                margin-bottom: 30px;
+                background-color: var(--leetcode-dark-gray);
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                overflow: hidden;
+                color: #eff1f6;
+            }
+            
+            #repoTable th, #repoTable td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid var(--leetcode-gray);
+            }
+            
+            #repoTable th {
+                background-color: var(--leetcode-gray);
+                font-weight: bold;
+                text-transform: uppercase;
+                color: #00b8a3;
+            }
+            #repoTable td {
+                background-color: #2d2d2d;
+            }
+            #repoTable tr:hover td {
+                background-color: #3e3e3e;
+            }
+            #repoTable tr:hover {
+                background-color: var(--leetcode-gray);
+            }
+            
+            #repoTable a {
+                color: var(--leetcode-blue);
+                text-decoration: none;
+            }
+            
+            #repoTable a:hover {
+                text-decoration: underline;
+            }
+            
+            #chart-container {
+                position: relative;
+                background-color: var(--leetcode-dark-gray);
+                border-radius: 8px;
+                margin-top: 40px;
+                padding: 40px;
+            }
+
+            #chart-container::before {
+                content: '';
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+                z-index: -1;
+                background-color: var(--leetcode-dark-gray);
+                border-radius: 8px;
+                box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+            }
+            
+            #chart {
+                width: 100%;
+                height: 100%;
+            }
+            
+            .dataTables_wrapper .dataTables_length, 
+            .dataTables_wrapper .dataTables_filter, 
+            .dataTables_wrapper .dataTables_info, 
+            .dataTables_wrapper .dataTables_processing, 
+            .dataTables_wrapper .dataTables_paginate {
+                margin-bottom: 10px;
+                color: var(--leetcode-light-gray);
+            }
+            
+            .dataTables_wrapper .dataTables_paginate .paginate_button {
+                color: var(--leetcode-light-gray) !important;
+                background-color: var(--leetcode-gray) !important;
+                border: none !important;
+            }
+            
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+                background: var(--leetcode-green) !important;
+                color: var(--leetcode-black) !important;
+                border: none !important;
+            }
+            
+            #ai-summary {
+                background-color: var(--leetcode-dark-gray);
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-top: 40px;
+                padding: 30px;
+            }
+            
+            #ai-summary h2 {
+                color: var(--leetcode-yellow);
+                font-size: 24px;
+                margin-bottom: 20px;
+                text-align: left;
+                border-bottom: 2px solid var(--leetcode-yellow);
+                padding-bottom: 10px;
+            }
+            
+            .summary-content {
+                display: flex;
+                align-items: flex-start;
+            }
+            
+            .summary-icon {
+                flex-shrink: 0;
+                margin-right: 20px;
+            }
+            
+            .ai-icon {
+                width: 40px;
+                height: 40px;
+                color: var(--leetcode-yellow);
+            }
+            
+            .summary-text {
+                flex-grow: 1;
+            }
+            
+            .summary-text p {
+                font-size: 16px;
+                line-height: 1.6;
+                color: var(--leetcode-light-gray);
+                margin: 0;
+                white-space: pre-wrap;
+            }
+            
+            @media (max-width: 768px) {
+                .summary-content {
+                    flex-direction: column;
+                }
+                
+                .summary-icon {
+                    margin-bottom: 15px;
+                }
+            }
+            .chart-info {
+                text-align: center;
+                color: var(--leetcode-light-gray);
+                font-style: italic;
+                margin-top: 10px;
+            }
+        </style>
+        </head>
+        <body>
+        <div class="container">
+            <h1>Trending GitHub Repositories</h1>
+            
+            <h2>Repository Table</h2>
+            <table id="repoTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Ranking</th>
+                        <th>Name</th>
+                        <th>Language</th>
+                        <th>Stars</th>
+                        <th>URL</th>
+                        <th>Date</th>
+                        <th>Forks</th>
+                        <th>Fork?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td>1</td>
+                        <td>HKUDS/LightRAG</td>
+                        <td>Python</td>
+                        <td>6041</td>
+                        <td><a href="https://github.com/HKUDS/LightRAG" target="_blank">https://github.com/HKUDS/LightRAG</a></td>
+                        <td>2024-10-06</td>
+                        <td>619</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>2</td>
+                        <td>SWivid/F5-TTS</td>
+                        <td>Python</td>
+                        <td>5620</td>
+                        <td><a href="https://github.com/SWivid/F5-TTS" target="_blank">https://github.com/SWivid/F5-TTS</a></td>
+                        <td>2024-10-13</td>
+                        <td>581</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>3</td>
+                        <td>Flowseal/zapret-discord-youtube</td>
+                        <td>Batchfile</td>
+                        <td>4354</td>
+                        <td><a href="https://github.com/Flowseal/zapret-discord-youtube" target="_blank">https://github.com/Flowseal/zapret-discord-youtube</a></td>
+                        <td>2024-10-13</td>
+                        <td>192</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>4</td>
+                        <td>facebookresearch/lingua</td>
+                        <td>Python</td>
+                        <td>3889</td>
+                        <td><a href="https://github.com/facebookresearch/lingua" target="_blank">https://github.com/facebookresearch/lingua</a></td>
+                        <td>2024-10-20</td>
+                        <td>187</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>5</td>
+                        <td>fudan-generative-vision/hallo2</td>
+                        <td>Python</td>
+                        <td>2999</td>
+                        <td><a href="https://github.com/fudan-generative-vision/hallo2" target="_blank">https://github.com/fudan-generative-vision/hallo2</a></td>
+                        <td>2024-10-20</td>
+                        <td>422</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>6</td>
+                        <td>xjdr-alt/entropix</td>
+                        <td>TypeScript</td>
+                        <td>2827</td>
+                        <td><a href="https://github.com/xjdr-alt/entropix" target="_blank">https://github.com/xjdr-alt/entropix</a></td>
+                        <td>2024-10-06</td>
+                        <td>295</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>7</td>
+                        <td>corbt/agent.exe</td>
+                        <td>TypeScript</td>
+                        <td>2298</td>
+                        <td><a href="https://github.com/corbt/agent.exe" target="_blank">https://github.com/corbt/agent.exe</a></td>
+                        <td>2024-10-27</td>
+                        <td>197</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>8</td>
+                        <td>Everlyn-Labs/Everlyn-1</td>
+                        <td>No language</td>
+                        <td>2292</td>
+                        <td><a href="https://github.com/Everlyn-Labs/Everlyn-1" target="_blank">https://github.com/Everlyn-Labs/Everlyn-1</a></td>
+                        <td>2024-10-20</td>
+                        <td>375</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>9</td>
+                        <td>langchain-ai/open-canvas</td>
+                        <td>TypeScript</td>
+                        <td>2088</td>
+                        <td><a href="https://github.com/langchain-ai/open-canvas" target="_blank">https://github.com/langchain-ai/open-canvas</a></td>
+                        <td>2024-10-06</td>
+                        <td>292</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>10</td>
+                        <td>jy0205/Pyramid-Flow</td>
+                        <td>Python</td>
+                        <td>2058</td>
+                        <td><a href="https://github.com/jy0205/Pyramid-Flow" target="_blank">https://github.com/jy0205/Pyramid-Flow</a></td>
+                        <td>2024-10-13</td>
+                        <td>184</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>11</td>
+                        <td>openai/openai-realtime-console</td>
+                        <td>JavaScript</td>
+                        <td>1869</td>
+                        <td><a href="https://github.com/openai/openai-realtime-console" target="_blank">https://github.com/openai/openai-realtime-console</a></td>
+                        <td>2024-10-06</td>
+                        <td>629</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>12</td>
+                        <td>StuckAtPrototype/Racer</td>
+                        <td>C</td>
+                        <td>1822</td>
+                        <td><a href="https://github.com/StuckAtPrototype/Racer" target="_blank">https://github.com/StuckAtPrototype/Racer</a></td>
+                        <td>2024-10-20</td>
+                        <td>251</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>13</td>
+                        <td>origin-space/originui</td>
+                        <td>TypeScript</td>
+                        <td>1399</td>
+                        <td><a href="https://github.com/origin-space/originui" target="_blank">https://github.com/origin-space/originui</a></td>
+                        <td>2024-10-20</td>
+                        <td>31</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>14</td>
+                        <td>cr4n5/XiaoYuanKouSuan</td>
+                        <td>Python</td>
+                        <td>1370</td>
+                        <td><a href="https://github.com/cr4n5/XiaoYuanKouSuan" target="_blank">https://github.com/cr4n5/XiaoYuanKouSuan</a></td>
+                        <td>2024-10-13</td>
+                        <td>176</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>15</td>
+                        <td>ryujinx-mirror/ryujinx</td>
+                        <td>C#</td>
+                        <td>1361</td>
+                        <td><a href="https://github.com/ryujinx-mirror/ryujinx" target="_blank">https://github.com/ryujinx-mirror/ryujinx</a></td>
+                        <td>2024-10-06</td>
+                        <td>456</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>16</td>
+                        <td>AdeiltonPereiraAlves/ShadowTool</td>
+                        <td>No language</td>
+                        <td>1290</td>
+                        <td><a href="https://github.com/AdeiltonPereiraAlves/ShadowTool" target="_blank">https://github.com/AdeiltonPereiraAlves/ShadowTool</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>17</td>
+                        <td>AdeiltonPereiraAlves/BlazingTool</td>
+                        <td>No language</td>
+                        <td>1290</td>
+                        <td><a href="https://github.com/AdeiltonPereiraAlves/BlazingTool" target="_blank">https://github.com/AdeiltonPereiraAlves/BlazingTool</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>18</td>
+                        <td>johnnycleiton07/BrtWallet</td>
+                        <td>No language</td>
+                        <td>1288</td>
+                        <td><a href="https://github.com/johnnycleiton07/BrtWallet" target="_blank">https://github.com/johnnycleiton07/BrtWallet</a></td>
+                        <td>2024-10-27</td>
+                        <td>1</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>19</td>
+                        <td>johnnycleiton07/SeedGn</td>
+                        <td>No language</td>
+                        <td>1286</td>
+                        <td><a href="https://github.com/johnnycleiton07/SeedGn" target="_blank">https://github.com/johnnycleiton07/SeedGn</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>20</td>
+                        <td>GabrielDamiani/ShadowUnlocker</td>
+                        <td>No language</td>
+                        <td>1284</td>
+                        <td><a href="https://github.com/GabrielDamiani/ShadowUnlocker" target="_blank">https://github.com/GabrielDamiani/ShadowUnlocker</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>21</td>
+                        <td>GabrielDamiani/Shadow-ClipperMalvare</td>
+                        <td>No language</td>
+                        <td>1284</td>
+                        <td><a href="https://github.com/GabrielDamiani/Shadow-ClipperMalvare" target="_blank">https://github.com/GabrielDamiani/Shadow-ClipperMalvare</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>22</td>
+                        <td>dragonblood/Microsoft-Windows-and-Office-Activator-2024</td>
+                        <td>No language</td>
+                        <td>1280</td>
+                        <td><a href="https://github.com/dragonblood/Microsoft-Windows-and-Office-Activator-2024" target="_blank">https://github.com/dragonblood/Microsoft-Windows-and-Office-Activator-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>23</td>
+                        <td>dragonblood/Spotify-Premium-for-free-2024</td>
+                        <td>No language</td>
+                        <td>1279</td>
+                        <td><a href="https://github.com/dragonblood/Spotify-Premium-for-free-2024" target="_blank">https://github.com/dragonblood/Spotify-Premium-for-free-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>24</td>
+                        <td>aryabasu17/AquaticDiscord</td>
+                        <td>No language</td>
+                        <td>1278</td>
+                        <td><a href="https://github.com/aryabasu17/AquaticDiscord" target="_blank">https://github.com/aryabasu17/AquaticDiscord</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>25</td>
+                        <td>TikiTikiPlus/HWID-Spoofer-and-Cleaner-2024</td>
+                        <td>No language</td>
+                        <td>1277</td>
+                        <td><a href="https://github.com/TikiTikiPlus/HWID-Spoofer-and-Cleaner-2024" target="_blank">https://github.com/TikiTikiPlus/HWID-Spoofer-and-Cleaner-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>1</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>26</td>
+                        <td>aryabasu17/wallet-stealer</td>
+                        <td>No language</td>
+                        <td>1276</td>
+                        <td><a href="https://github.com/aryabasu17/wallet-stealer" target="_blank">https://github.com/aryabasu17/wallet-stealer</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>27</td>
+                        <td>subrahmanyaug/Adobe-Animate-2024</td>
+                        <td>No language</td>
+                        <td>1275</td>
+                        <td><a href="https://github.com/subrahmanyaug/Adobe-Animate-2024" target="_blank">https://github.com/subrahmanyaug/Adobe-Animate-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>28</td>
+                        <td>TikiTikiPlus/ESET-KeyGen-2024</td>
+                        <td>No language</td>
+                        <td>1275</td>
+                        <td><a href="https://github.com/TikiTikiPlus/ESET-KeyGen-2024" target="_blank">https://github.com/TikiTikiPlus/ESET-KeyGen-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>29</td>
+                        <td>Redwingshunt/Adobe-After-Effects-2024-</td>
+                        <td>No language</td>
+                        <td>1274</td>
+                        <td><a href="https://github.com/Redwingshunt/Adobe-After-Effects-2024-" target="_blank">https://github.com/Redwingshunt/Adobe-After-Effects-2024-</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>30</td>
+                        <td>envincebal/IDM-Activation-Script-2024</td>
+                        <td>No language</td>
+                        <td>1274</td>
+                        <td><a href="https://github.com/envincebal/IDM-Activation-Script-2024" target="_blank">https://github.com/envincebal/IDM-Activation-Script-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>31</td>
+                        <td>envincebal/Adobe-Acrobat-Pro-2024</td>
+                        <td>No language</td>
+                        <td>1274</td>
+                        <td><a href="https://github.com/envincebal/Adobe-Acrobat-Pro-2024" target="_blank">https://github.com/envincebal/Adobe-Acrobat-Pro-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>32</td>
+                        <td>subrahmanyaug/Adobe-Express-2024</td>
+                        <td>No language</td>
+                        <td>1274</td>
+                        <td><a href="https://github.com/subrahmanyaug/Adobe-Express-2024" target="_blank">https://github.com/subrahmanyaug/Adobe-Express-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>33</td>
+                        <td>Redwingshunt/Fl-Studio-2024</td>
+                        <td>No language</td>
+                        <td>1274</td>
+                        <td><a href="https://github.com/Redwingshunt/Fl-Studio-2024" target="_blank">https://github.com/Redwingshunt/Fl-Studio-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>34</td>
+                        <td>Marcos-Dantas/ProtonVPN-Free-2024</td>
+                        <td>No language</td>
+                        <td>1272</td>
+                        <td><a href="https://github.com/Marcos-Dantas/ProtonVPN-Free-2024" target="_blank">https://github.com/Marcos-Dantas/ProtonVPN-Free-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>35</td>
+                        <td>Marcos-Dantas/IDA-Pro-Keygen-2024</td>
+                        <td>No language</td>
+                        <td>1271</td>
+                        <td><a href="https://github.com/Marcos-Dantas/IDA-Pro-Keygen-2024" target="_blank">https://github.com/Marcos-Dantas/IDA-Pro-Keygen-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>36</td>
+                        <td>Gabriel-Dias-Oliveira/Wemod-Premium-Unlocker-2024</td>
+                        <td>No language</td>
+                        <td>1268</td>
+                        <td><a href="https://github.com/Gabriel-Dias-Oliveira/Wemod-Premium-Unlocker-2024" target="_blank">https://github.com/Gabriel-Dias-Oliveira/Wemod-Premium-Unlocker-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>37</td>
+                        <td>Gabriel-Dias-Oliveira/Sony-Vegas-Pro-2024</td>
+                        <td>No language</td>
+                        <td>1267</td>
+                        <td><a href="https://github.com/Gabriel-Dias-Oliveira/Sony-Vegas-Pro-2024" target="_blank">https://github.com/Gabriel-Dias-Oliveira/Sony-Vegas-Pro-2024</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>38</td>
+                        <td>ethanniser/NextFaster</td>
+                        <td>TypeScript</td>
+                        <td>1195</td>
+                        <td><a href="https://github.com/ethanniser/NextFaster" target="_blank">https://github.com/ethanniser/NextFaster</a></td>
+                        <td>2024-10-20</td>
+                        <td>153</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>39</td>
+                        <td>NirDiamant/Prompt_Engineering</td>
+                        <td>Jupyter Notebook</td>
+                        <td>1177</td>
+                        <td><a href="https://github.com/NirDiamant/Prompt_Engineering" target="_blank">https://github.com/NirDiamant/Prompt_Engineering</a></td>
+                        <td>2024-10-13</td>
+                        <td>130</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>40</td>
+                        <td>KoriIku/luxirty-search</td>
+                        <td>CSS</td>
+                        <td>1167</td>
+                        <td><a href="https://github.com/KoriIku/luxirty-search" target="_blank">https://github.com/KoriIku/luxirty-search</a></td>
+                        <td>2024-10-13</td>
+                        <td>109</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>41</td>
+                        <td>jasonxtn/Argus</td>
+                        <td>Python</td>
+                        <td>1061</td>
+                        <td><a href="https://github.com/jasonxtn/Argus" target="_blank">https://github.com/jasonxtn/Argus</a></td>
+                        <td>2024-10-06</td>
+                        <td>114</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>42</td>
+                        <td>GAIR-NLP/O1-Journey</td>
+                        <td>No language</td>
+                        <td>1011</td>
+                        <td><a href="https://github.com/GAIR-NLP/O1-Journey" target="_blank">https://github.com/GAIR-NLP/O1-Journey</a></td>
+                        <td>2024-10-13</td>
+                        <td>25</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>43</td>
+                        <td>usefulsensors/moonshine</td>
+                        <td>Python</td>
+                        <td>999</td>
+                        <td><a href="https://github.com/usefulsensors/moonshine" target="_blank">https://github.com/usefulsensors/moonshine</a></td>
+                        <td>2024-10-06</td>
+                        <td>44</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>44</td>
+                        <td>panphp/pan</td>
+                        <td>PHP</td>
+                        <td>938</td>
+                        <td><a href="https://github.com/panphp/pan" target="_blank">https://github.com/panphp/pan</a></td>
+                        <td>2024-10-13</td>
+                        <td>36</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>45</td>
+                        <td>leerob/next-self-host</td>
+                        <td>TypeScript</td>
+                        <td>916</td>
+                        <td><a href="https://github.com/leerob/next-self-host" target="_blank">https://github.com/leerob/next-self-host</a></td>
+                        <td>2024-10-06</td>
+                        <td>120</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>46</td>
+                        <td>gpt-omni/mini-omni2</td>
+                        <td>Python</td>
+                        <td>912</td>
+                        <td><a href="https://github.com/gpt-omni/mini-omni2" target="_blank">https://github.com/gpt-omni/mini-omni2</a></td>
+                        <td>2024-10-20</td>
+                        <td>105</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>47</td>
+                        <td>AgibotTech/agibot_x1_infer</td>
+                        <td>C++</td>
+                        <td>853</td>
+                        <td><a href="https://github.com/AgibotTech/agibot_x1_infer" target="_blank">https://github.com/AgibotTech/agibot_x1_infer</a></td>
+                        <td>2024-10-27</td>
+                        <td>262</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>48</td>
+                        <td>MahmoudShawkyy/CrystalTool</td>
+                        <td>No language</td>
+                        <td>830</td>
+                        <td><a href="https://github.com/MahmoudShawkyy/CrystalTool" target="_blank">https://github.com/MahmoudShawkyy/CrystalTool</a></td>
+                        <td>2024-10-27</td>
+                        <td>0</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>49</td>
+                        <td>RamboRogers/rfhunter</td>
+                        <td>C++</td>
+                        <td>827</td>
+                        <td><a href="https://github.com/RamboRogers/rfhunter" target="_blank">https://github.com/RamboRogers/rfhunter</a></td>
+                        <td>2024-10-20</td>
+                        <td>21</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>50</td>
+                        <td>deepseek-ai/Janus</td>
+                        <td>Python</td>
+                        <td>822</td>
+                        <td><a href="https://github.com/deepseek-ai/Janus" target="_blank">https://github.com/deepseek-ai/Janus</a></td>
+                        <td>2024-10-20</td>
+                        <td>36</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>51</td>
+                        <td>openreasoner/openr</td>
+                        <td>Python</td>
+                        <td>817</td>
+                        <td><a href="https://github.com/openreasoner/openr" target="_blank">https://github.com/openreasoner/openr</a></td>
+                        <td>2024-10-13</td>
+                        <td>58</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>52</td>
+                        <td>THUDM/GLM-4-Voice</td>
+                        <td>Python</td>
+                        <td>804</td>
+                        <td><a href="https://github.com/THUDM/GLM-4-Voice" target="_blank">https://github.com/THUDM/GLM-4-Voice</a></td>
+                        <td>2024-10-27</td>
+                        <td>68</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>53</td>
+                        <td>AgibotTech/agibot_x1_train</td>
+                        <td>Python</td>
+                        <td>774</td>
+                        <td><a href="https://github.com/AgibotTech/agibot_x1_train" target="_blank">https://github.com/AgibotTech/agibot_x1_train</a></td>
+                        <td>2024-10-27</td>
+                        <td>238</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>54</td>
+                        <td>protectai/vulnhuntr</td>
+                        <td>Python</td>
+                        <td>759</td>
+                        <td><a href="https://github.com/protectai/vulnhuntr" target="_blank">https://github.com/protectai/vulnhuntr</a></td>
+                        <td>2024-10-20</td>
+                        <td>81</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>55</td>
+                        <td>Open-Source-O1/Open-O1</td>
+                        <td>Python</td>
+                        <td>731</td>
+                        <td><a href="https://github.com/Open-Source-O1/Open-O1" target="_blank">https://github.com/Open-Source-O1/Open-O1</a></td>
+                        <td>2024-10-06</td>
+                        <td>21</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>56</td>
+                        <td>souzatharsis/podcastfy</td>
+                        <td>Python</td>
+                        <td>725</td>
+                        <td><a href="https://github.com/souzatharsis/podcastfy" target="_blank">https://github.com/souzatharsis/podcastfy</a></td>
+                        <td>2024-10-06</td>
+                        <td>81</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>57</td>
+                        <td>Junyi42/monst3r</td>
+                        <td>Python</td>
+                        <td>714</td>
+                        <td><a href="https://github.com/Junyi42/monst3r" target="_blank">https://github.com/Junyi42/monst3r</a></td>
+                        <td>2024-10-13</td>
+                        <td>31</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>58</td>
+                        <td>rhymes-ai/Aria</td>
+                        <td>Jupyter Notebook</td>
+                        <td>703</td>
+                        <td><a href="https://github.com/rhymes-ai/Aria" target="_blank">https://github.com/rhymes-ai/Aria</a></td>
+                        <td>2024-10-06</td>
+                        <td>57</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>59</td>
+                        <td>iAmCorey/awesome-indie-hacker-tools</td>
+                        <td>TypeScript</td>
+                        <td>697</td>
+                        <td><a href="https://github.com/iAmCorey/awesome-indie-hacker-tools" target="_blank">https://github.com/iAmCorey/awesome-indie-hacker-tools</a></td>
+                        <td>2024-10-06</td>
+                        <td>52</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>60</td>
+                        <td>huggingface/evaluation-guidebook</td>
+                        <td>No language</td>
+                        <td>683</td>
+                        <td><a href="https://github.com/huggingface/evaluation-guidebook" target="_blank">https://github.com/huggingface/evaluation-guidebook</a></td>
+                        <td>2024-10-13</td>
+                        <td>43</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>61</td>
+                        <td>jbilcke-hf/FacePoke</td>
+                        <td>JavaScript</td>
+                        <td>671</td>
+                        <td><a href="https://github.com/jbilcke-hf/FacePoke" target="_blank">https://github.com/jbilcke-hf/FacePoke</a></td>
+                        <td>2024-10-06</td>
+                        <td>60</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>62</td>
+                        <td>PsyChip/machina</td>
+                        <td>Python</td>
+                        <td>661</td>
+                        <td><a href="https://github.com/PsyChip/machina" target="_blank">https://github.com/PsyChip/machina</a></td>
+                        <td>2024-10-13</td>
+                        <td>25</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>63</td>
+                        <td>ChaosJulien/XiaoYuanKouSuan_Auto</td>
+                        <td>Python</td>
+                        <td>648</td>
+                        <td><a href="https://github.com/ChaosJulien/XiaoYuanKouSuan_Auto" target="_blank">https://github.com/ChaosJulien/XiaoYuanKouSuan_Auto</a></td>
+                        <td>2024-10-13</td>
+                        <td>78</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>64</td>
+                        <td>yoheinakajima/ditto</td>
+                        <td>Python</td>
+                        <td>644</td>
+                        <td><a href="https://github.com/yoheinakajima/ditto" target="_blank">https://github.com/yoheinakajima/ditto</a></td>
+                        <td>2024-10-20</td>
+                        <td>85</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>65</td>
+                        <td>likuai2010/auto-installer</td>
+                        <td>No language</td>
+                        <td>644</td>
+                        <td><a href="https://github.com/likuai2010/auto-installer" target="_blank">https://github.com/likuai2010/auto-installer</a></td>
+                        <td>2024-10-13</td>
+                        <td>27</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>66</td>
+                        <td>cmliu/CFnat-Windows-GUI</td>
+                        <td>C#</td>
+                        <td>633</td>
+                        <td><a href="https://github.com/cmliu/CFnat-Windows-GUI" target="_blank">https://github.com/cmliu/CFnat-Windows-GUI</a></td>
+                        <td>2024-10-20</td>
+                        <td>259</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>67</td>
+                        <td>adriankarlen/textfox</td>
+                        <td>CSS</td>
+                        <td>630</td>
+                        <td><a href="https://github.com/adriankarlen/textfox" target="_blank">https://github.com/adriankarlen/textfox</a></td>
+                        <td>2024-10-13</td>
+                        <td>12</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>68</td>
+                        <td>tokio-rs/toasty</td>
+                        <td>Rust</td>
+                        <td>629</td>
+                        <td><a href="https://github.com/tokio-rs/toasty" target="_blank">https://github.com/tokio-rs/toasty</a></td>
+                        <td>2024-10-27</td>
+                        <td>19</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>69</td>
+                        <td>Brayden/starbasedb</td>
+                        <td>TypeScript</td>
+                        <td>608</td>
+                        <td><a href="https://github.com/Brayden/starbasedb" target="_blank">https://github.com/Brayden/starbasedb</a></td>
+                        <td>2024-10-06</td>
+                        <td>12</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>70</td>
+                        <td>qifi-dev/qrs</td>
+                        <td>TypeScript</td>
+                        <td>598</td>
+                        <td><a href="https://github.com/qifi-dev/qrs" target="_blank">https://github.com/qifi-dev/qrs</a></td>
+                        <td>2024-10-06</td>
+                        <td>29</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>71</td>
+                        <td>Azure-Samples/aoai-realtime-audio-sdk</td>
+                        <td>TypeScript</td>
+                        <td>593</td>
+                        <td><a href="https://github.com/Azure-Samples/aoai-realtime-audio-sdk" target="_blank">https://github.com/Azure-Samples/aoai-realtime-audio-sdk</a></td>
+                        <td>2024-10-06</td>
+                        <td>90</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>72</td>
+                        <td>openai/openai-realtime-api-beta</td>
+                        <td>JavaScript</td>
+                        <td>569</td>
+                        <td><a href="https://github.com/openai/openai-realtime-api-beta" target="_blank">https://github.com/openai/openai-realtime-api-beta</a></td>
+                        <td>2024-10-06</td>
+                        <td>122</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>73</td>
+                        <td>JusticeFighterDance/JusticeFighter110</td>
+                        <td>No language</td>
+                        <td>567</td>
+                        <td><a href="https://github.com/JusticeFighterDance/JusticeFighter110" target="_blank">https://github.com/JusticeFighterDance/JusticeFighter110</a></td>
+                        <td>2024-10-20</td>
+                        <td>37</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>74</td>
+                        <td>andrearaponi/dito</td>
+                        <td>Go</td>
+                        <td>550</td>
+                        <td><a href="https://github.com/andrearaponi/dito" target="_blank">https://github.com/andrearaponi/dito</a></td>
+                        <td>2024-10-13</td>
+                        <td>13</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>75</td>
+                        <td>sihyun-yu/REPA</td>
+                        <td>Python</td>
+                        <td>544</td>
+                        <td><a href="https://github.com/sihyun-yu/REPA" target="_blank">https://github.com/sihyun-yu/REPA</a></td>
+                        <td>2024-10-13</td>
+                        <td>23</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>76</td>
+                        <td>Nutlope/blinkshot</td>
+                        <td>TypeScript</td>
+                        <td>534</td>
+                        <td><a href="https://github.com/Nutlope/blinkshot" target="_blank">https://github.com/Nutlope/blinkshot</a></td>
+                        <td>2024-10-06</td>
+                        <td>74</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>77</td>
+                        <td>VikParuchuri/tabled</td>
+                        <td>Python</td>
+                        <td>526</td>
+                        <td><a href="https://github.com/VikParuchuri/tabled" target="_blank">https://github.com/VikParuchuri/tabled</a></td>
+                        <td>2024-10-13</td>
+                        <td>25</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>78</td>
+                        <td>nnaemek2/Aimgen.ai-AI-Image-Generator-Website</td>
+                        <td>No language</td>
+                        <td>522</td>
+                        <td><a href="https://github.com/nnaemek2/Aimgen.ai-AI-Image-Generator-Website" target="_blank">https://github.com/nnaemek2/Aimgen.ai-AI-Image-Generator-Website</a></td>
+                        <td>2024-10-20</td>
+                        <td>2</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>79</td>
+                        <td>nh2/internal-contstrained-pki</td>
+                        <td>Shell</td>
+                        <td>512</td>
+                        <td><a href="https://github.com/nh2/internal-contstrained-pki" target="_blank">https://github.com/nh2/internal-contstrained-pki</a></td>
+                        <td>2024-10-20</td>
+                        <td>10</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>80</td>
+                        <td>16131zzzzzzzz/EveryoneNobel</td>
+                        <td>Python</td>
+                        <td>504</td>
+                        <td><a href="https://github.com/16131zzzzzzzz/EveryoneNobel" target="_blank">https://github.com/16131zzzzzzzz/EveryoneNobel</a></td>
+                        <td>2024-10-27</td>
+                        <td>40</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>81</td>
+                        <td>disler/poc-realtime-ai-assistant</td>
+                        <td>Python</td>
+                        <td>495</td>
+                        <td><a href="https://github.com/disler/poc-realtime-ai-assistant" target="_blank">https://github.com/disler/poc-realtime-ai-assistant</a></td>
+                        <td>2024-10-13</td>
+                        <td>151</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>82</td>
+                        <td>apoorvnandan/tensor.h</td>
+                        <td>C</td>
+                        <td>494</td>
+                        <td><a href="https://github.com/apoorvnandan/tensor.h" target="_blank">https://github.com/apoorvnandan/tensor.h</a></td>
+                        <td>2024-10-13</td>
+                        <td>39</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>83</td>
+                        <td>splitbrain/clipscreen</td>
+                        <td>C++</td>
+                        <td>479</td>
+                        <td><a href="https://github.com/splitbrain/clipscreen" target="_blank">https://github.com/splitbrain/clipscreen</a></td>
+                        <td>2024-10-13</td>
+                        <td>17</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>84</td>
+                        <td>ohayonguy/PMRF</td>
+                        <td>Python</td>
+                        <td>460</td>
+                        <td><a href="https://github.com/ohayonguy/PMRF" target="_blank">https://github.com/ohayonguy/PMRF</a></td>
+                        <td>2024-10-06</td>
+                        <td>29</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>85</td>
+                        <td>openai/mle-bench</td>
+                        <td>Python</td>
+                        <td>456</td>
+                        <td><a href="https://github.com/openai/mle-bench" target="_blank">https://github.com/openai/mle-bench</a></td>
+                        <td>2024-10-13</td>
+                        <td>47</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>86</td>
+                        <td>lihuithe/podlm-public</td>
+                        <td>Python</td>
+                        <td>453</td>
+                        <td><a href="https://github.com/lihuithe/podlm-public" target="_blank">https://github.com/lihuithe/podlm-public</a></td>
+                        <td>2024-10-06</td>
+                        <td>52</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>87</td>
+                        <td>jinweijie/notify-me</td>
+                        <td>Kotlin</td>
+                        <td>449</td>
+                        <td><a href="https://github.com/jinweijie/notify-me" target="_blank">https://github.com/jinweijie/notify-me</a></td>
+                        <td>2024-10-06</td>
+                        <td>44</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>88</td>
+                        <td>Stability-AI/sd3.5</td>
+                        <td>Python</td>
+                        <td>434</td>
+                        <td><a href="https://github.com/Stability-AI/sd3.5" target="_blank">https://github.com/Stability-AI/sd3.5</a></td>
+                        <td>2024-10-13</td>
+                        <td>25</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>89</td>
+                        <td>LangbaseInc/BaseAI</td>
+                        <td>TypeScript</td>
+                        <td>427</td>
+                        <td><a href="https://github.com/LangbaseInc/BaseAI" target="_blank">https://github.com/LangbaseInc/BaseAI</a></td>
+                        <td>2024-10-06</td>
+                        <td>30</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>90</td>
+                        <td>srush/awesome-o1</td>
+                        <td>TeX</td>
+                        <td>423</td>
+                        <td><a href="https://github.com/srush/awesome-o1" target="_blank">https://github.com/srush/awesome-o1</a></td>
+                        <td>2024-10-20</td>
+                        <td>15</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>91</td>
+                        <td>AgibotTech/agibot_x1_hardware</td>
+                        <td>No language</td>
+                        <td>421</td>
+                        <td><a href="https://github.com/AgibotTech/agibot_x1_hardware" target="_blank">https://github.com/AgibotTech/agibot_x1_hardware</a></td>
+                        <td>2024-10-27</td>
+                        <td>125</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>92</td>
+                        <td>rishikanthc/Scriberr</td>
+                        <td>Svelte</td>
+                        <td>420</td>
+                        <td><a href="https://github.com/rishikanthc/Scriberr" target="_blank">https://github.com/rishikanthc/Scriberr</a></td>
+                        <td>2024-10-06</td>
+                        <td>17</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>93</td>
+                        <td>awslabs/git-remote-s3</td>
+                        <td>Python</td>
+                        <td>418</td>
+                        <td><a href="https://github.com/awslabs/git-remote-s3" target="_blank">https://github.com/awslabs/git-remote-s3</a></td>
+                        <td>2024-10-20</td>
+                        <td>6</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>94</td>
+                        <td>theJayTea/WritingTools</td>
+                        <td>Python</td>
+                        <td>412</td>
+                        <td><a href="https://github.com/theJayTea/WritingTools" target="_blank">https://github.com/theJayTea/WritingTools</a></td>
+                        <td>2024-10-20</td>
+                        <td>23</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>95</td>
+                        <td>GreemDev/Ryujinx</td>
+                        <td>C#</td>
+                        <td>393</td>
+                        <td><a href="https://github.com/GreemDev/Ryujinx" target="_blank">https://github.com/GreemDev/Ryujinx</a></td>
+                        <td>2024-10-13</td>
+                        <td>36</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>96</td>
+                        <td>goncy/next-mercadopago</td>
+                        <td>TypeScript</td>
+                        <td>388</td>
+                        <td><a href="https://github.com/goncy/next-mercadopago" target="_blank">https://github.com/goncy/next-mercadopago</a></td>
+                        <td>2024-10-13</td>
+                        <td>38</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>97</td>
+                        <td>cvg/depthsplat</td>
+                        <td>Python</td>
+                        <td>388</td>
+                        <td><a href="https://github.com/cvg/depthsplat" target="_blank">https://github.com/cvg/depthsplat</a></td>
+                        <td>2024-10-20</td>
+                        <td>12</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>98</td>
+                        <td>aotakeda/learn-thing</td>
+                        <td>TypeScript</td>
+                        <td>386</td>
+                        <td><a href="https://github.com/aotakeda/learn-thing" target="_blank">https://github.com/aotakeda/learn-thing</a></td>
+                        <td>2024-10-20</td>
+                        <td>16</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>99</td>
+                        <td>mainframecomputer/fullmoon-ios</td>
+                        <td>Swift</td>
+                        <td>386</td>
+                        <td><a href="https://github.com/mainframecomputer/fullmoon-ios" target="_blank">https://github.com/mainframecomputer/fullmoon-ios</a></td>
+                        <td>2024-10-13</td>
+                        <td>36</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>100</td>
+                        <td>ajnart/subs</td>
+                        <td>TypeScript</td>
+                        <td>378</td>
+                        <td><a href="https://github.com/ajnart/subs" target="_blank">https://github.com/ajnart/subs</a></td>
+                        <td>2024-10-13</td>
+                        <td>21</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>101</td>
+                        <td>simular-ai/Agent-S</td>
+                        <td>Python</td>
+                        <td>375</td>
+                        <td><a href="https://github.com/simular-ai/Agent-S" target="_blank">https://github.com/simular-ai/Agent-S</a></td>
+                        <td>2024-10-13</td>
+                        <td>55</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>102</td>
+                        <td>Wedot-Engine/WeDot</td>
+                        <td>C++</td>
+                        <td>370</td>
+                        <td><a href="https://github.com/Wedot-Engine/WeDot" target="_blank">https://github.com/Wedot-Engine/WeDot</a></td>
+                        <td>2024-10-06</td>
+                        <td>21</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>103</td>
+                        <td>NVlabs/Sana</td>
+                        <td>No language</td>
+                        <td>368</td>
+                        <td><a href="https://github.com/NVlabs/Sana" target="_blank">https://github.com/NVlabs/Sana</a></td>
+                        <td>2024-10-13</td>
+                        <td>6</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>104</td>
+                        <td>rhymes-ai/Allegro</td>
+                        <td>Python</td>
+                        <td>365</td>
+                        <td><a href="https://github.com/rhymes-ai/Allegro" target="_blank">https://github.com/rhymes-ai/Allegro</a></td>
+                        <td>2024-10-20</td>
+                        <td>20</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>105</td>
+                        <td>skydoves/kmp-developer-roadmap</td>
+                        <td>Kotlin</td>
+                        <td>359</td>
+                        <td><a href="https://github.com/skydoves/kmp-developer-roadmap" target="_blank">https://github.com/skydoves/kmp-developer-roadmap</a></td>
+                        <td>2024-10-13</td>
+                        <td>16</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>106</td>
+                        <td>PromtEngineer/localGPT-Vision</td>
+                        <td>Python</td>
+                        <td>342</td>
+                        <td><a href="https://github.com/PromtEngineer/localGPT-Vision" target="_blank">https://github.com/PromtEngineer/localGPT-Vision</a></td>
+                        <td>2024-10-06</td>
+                        <td>67</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>107</td>
+                        <td>adaline/gateway</td>
+                        <td>TypeScript</td>
+                        <td>341</td>
+                        <td><a href="https://github.com/adaline/gateway" target="_blank">https://github.com/adaline/gateway</a></td>
+                        <td>2024-10-20</td>
+                        <td>8</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>108</td>
+                        <td>nianticlabs/venator</td>
+                        <td>Go</td>
+                        <td>340</td>
+                        <td><a href="https://github.com/nianticlabs/venator" target="_blank">https://github.com/nianticlabs/venator</a></td>
+                        <td>2024-10-06</td>
+                        <td>16</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>109</td>
+                        <td>alibaba/Tora</td>
+                        <td>Python</td>
+                        <td>327</td>
+                        <td><a href="https://github.com/alibaba/Tora" target="_blank">https://github.com/alibaba/Tora</a></td>
+                        <td>2024-10-20</td>
+                        <td>29</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>110</td>
+                        <td>balazik/ComfyUI-PuLID-Flux</td>
+                        <td>Python</td>
+                        <td>322</td>
+                        <td><a href="https://github.com/balazik/ComfyUI-PuLID-Flux" target="_blank">https://github.com/balazik/ComfyUI-PuLID-Flux</a></td>
+                        <td>2024-10-06</td>
+                        <td>20</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>111</td>
+                        <td>thu-ml/SageAttention</td>
+                        <td>Python</td>
+                        <td>317</td>
+                        <td><a href="https://github.com/thu-ml/SageAttention" target="_blank">https://github.com/thu-ml/SageAttention</a></td>
+                        <td>2024-10-06</td>
+                        <td>13</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>112</td>
+                        <td>transitive-bullshit/openai-realtime-api</td>
+                        <td>TypeScript</td>
+                        <td>291</td>
+                        <td><a href="https://github.com/transitive-bullshit/openai-realtime-api" target="_blank">https://github.com/transitive-bullshit/openai-realtime-api</a></td>
+                        <td>2024-10-20</td>
+                        <td>14</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>113</td>
+                        <td>adarshb3/Virtual-Try-On-Application-using-Flask-Twilio-and-Gradio</td>
+                        <td>Python</td>
+                        <td>288</td>
+                        <td><a href="https://github.com/adarshb3/Virtual-Try-On-Application-using-Flask-Twilio-and-Gradio" target="_blank">https://github.com/adarshb3/Virtual-Try-On-Application-using-Flask-Twilio-and-Gradio</a></td>
+                        <td>2024-10-20</td>
+                        <td>32</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>114</td>
+                        <td>chaos-water/Magic-BI</td>
+                        <td>Python</td>
+                        <td>281</td>
+                        <td><a href="https://github.com/chaos-water/Magic-BI" target="_blank">https://github.com/chaos-water/Magic-BI</a></td>
+                        <td>2024-10-06</td>
+                        <td>50</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>115</td>
+                        <td>mit-han-lab/duo-attention</td>
+                        <td>Python</td>
+                        <td>281</td>
+                        <td><a href="https://github.com/mit-han-lab/duo-attention" target="_blank">https://github.com/mit-han-lab/duo-attention</a></td>
+                        <td>2024-10-20</td>
+                        <td>13</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>116</td>
+                        <td>tzador/makedown</td>
+                        <td>Python</td>
+                        <td>274</td>
+                        <td><a href="https://github.com/tzador/makedown" target="_blank">https://github.com/tzador/makedown</a></td>
+                        <td>2024-10-20</td>
+                        <td>9</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>117</td>
+                        <td>opendatalab/DocLayout-YOLO</td>
+                        <td>Python</td>
+                        <td>265</td>
+                        <td><a href="https://github.com/opendatalab/DocLayout-YOLO" target="_blank">https://github.com/opendatalab/DocLayout-YOLO</a></td>
+                        <td>2024-10-20</td>
+                        <td>18</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>118</td>
+                        <td>whyhow-ai/knowledge-table</td>
+                        <td>Python</td>
+                        <td>259</td>
+                        <td><a href="https://github.com/whyhow-ai/knowledge-table" target="_blank">https://github.com/whyhow-ai/knowledge-table</a></td>
+                        <td>2024-10-06</td>
+                        <td>32</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>119</td>
+                        <td>lucasnewman/f5-tts-mlx</td>
+                        <td>Python</td>
+                        <td>259</td>
+                        <td><a href="https://github.com/lucasnewman/f5-tts-mlx" target="_blank">https://github.com/lucasnewman/f5-tts-mlx</a></td>
+                        <td>2024-10-20</td>
+                        <td>23</td>
+                        <td>False</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>120</td>
+                        <td>yaakua/ai-outpainting-com</td>
+                        <td>TypeScript</td>
+                        <td>250</td>
+                        <td><a href="https://github.com/yaakua/ai-outpainting-com" target="_blank">https://github.com/yaakua/ai-outpainting-com</a></td>
+                        <td>2024-10-20</td>
+                        <td>97</td>
+                        <td>False</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            
+            <h2>Repository Charts</h2>
+            <div id="chart-container">
+                <div id="chart"></div>
+                <p class="chart-info">Hover over the datapoints for more detailed information about each repository.</p>
+            </div>
+            <div style="display: none;">Debug: &lt;p&gt;The provided data represents the top 10 most starred GitHub repositories in the last 30 days.  The prominent trends in this data point towards:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Themes:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Large Language Models (LLMs) and Natural Language Processing (NLP):&lt;/strong&gt; Several repositories focus on LLMs and NLP, showcasing their increasing prominence in the tech world. These include repositories like &lt;code&gt;facebookresearch/lingua&lt;/code&gt;, &lt;code&gt;HKUDS/LightRAG&lt;/code&gt;, and &lt;code&gt;SWivid/F5-TTS&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AI Agents and Automation:&lt;/strong&gt; Repositories like &lt;code&gt;corbt/agent.exe&lt;/code&gt; and &lt;code&gt;langchain-ai/open-canvas&lt;/code&gt; demonstrate the growing interest in AI agents and their ability to automate tasks.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Generative AI and Image Generation:&lt;/strong&gt;  Repositories like &lt;code&gt;fudan-generative-vision/hallo2&lt;/code&gt; and &lt;code&gt;Everlyn-Labs/Everlyn-1&lt;/code&gt; highlight the increasing use of generative AI models for creating images, videos, and other content.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Other trends:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Open-source Development:&lt;/strong&gt; The popularity of these repositories on GitHub suggests a strong preference for open-source projects within the tech community. &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Collaboration and Community:&lt;/strong&gt;  Many repositories feature collaborative efforts, showcasing the importance of community-driven development in the field.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Accessibility and Ease of Use:&lt;/strong&gt; Several projects emphasize ease of use and accessibility, suggesting a trend towards making these advanced technologies more widely available. &lt;/li&gt;
+&lt;/ul&gt;</div>
+            <div id="ai-summary">
+                <h2>AI-Generated Insights</h2>
+                <div class="summary-content">
+                    <div class="summary-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-icon">
+                            <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2Z"></path>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                    </div>
+                    <div class="summary-text">
+                        <p><p>The provided data represents the top 10 most starred GitHub repositories in the last 30 days.  The prominent trends in this data point towards:</p>
+<p><strong>Themes:</strong></p>
+<ul>
+<li><strong>Large Language Models (LLMs) and Natural Language Processing (NLP):</strong> Several repositories focus on LLMs and NLP, showcasing their increasing prominence in the tech world. These include repositories like <code>facebookresearch/lingua</code>, <code>HKUDS/LightRAG</code>, and <code>SWivid/F5-TTS</code>.</li>
+<li><strong>AI Agents and Automation:</strong> Repositories like <code>corbt/agent.exe</code> and <code>langchain-ai/open-canvas</code> demonstrate the growing interest in AI agents and their ability to automate tasks.</li>
+<li><strong>Generative AI and Image Generation:</strong>  Repositories like <code>fudan-generative-vision/hallo2</code> and <code>Everlyn-Labs/Everlyn-1</code> highlight the increasing use of generative AI models for creating images, videos, and other content.</li>
+</ul>
+<p><strong>Other trends:</strong></p>
+<ul>
+<li><strong>Open-source Development:</strong> The popularity of these repositories on GitHub suggests a strong preference for open-source projects within the tech community. </li>
+<li><strong>Collaboration and Community:</strong>  Many repositories feature collaborative efforts, showcasing the importance of community-driven development in the field.</li>
+<li><strong>Accessibility and Ease of Use:</strong> Several projects emphasize ease of use and accessibility, suggesting a trend towards making these advanced technologies more widely available. </li>
+</ul></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            $(document).ready(function() {
+                $('#repoTable').DataTable();
+            });
+            
+            var graphs = {"data": [{"hovertemplate": "Python<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "Python", "text": ["HKUDS/LightRAG", "SWivid/F5-TTS", "facebookresearch/lingua", "fudan-generative-vision/hallo2", "jy0205/Pyramid-Flow", "cr4n5/XiaoYuanKouSuan", "jasonxtn/Argus", "usefulsensors/moonshine", "gpt-omni/mini-omni2", "deepseek-ai/Janus", "openreasoner/openr", "THUDM/GLM-4-Voice", "AgibotTech/agibot_x1_train", "protectai/vulnhuntr", "Open-Source-O1/Open-O1", "souzatharsis/podcastfy", "Junyi42/monst3r", "PsyChip/machina", "ChaosJulien/XiaoYuanKouSuan_Auto", "yoheinakajima/ditto", "sihyun-yu/REPA", "VikParuchuri/tabled", "16131zzzzzzzz/EveryoneNobel", "disler/poc-realtime-ai-assistant", "ohayonguy/PMRF", "openai/mle-bench", "lihuithe/podlm-public", "Stability-AI/sd3.5", "awslabs/git-remote-s3", "theJayTea/WritingTools", "cvg/depthsplat", "simular-ai/Agent-S", "rhymes-ai/Allegro", "PromtEngineer/localGPT-Vision", "alibaba/Tora", "balazik/ComfyUI-PuLID-Flux", "thu-ml/SageAttention", "adarshb3/Virtual-Try-On-Application-using-Flask-Twilio-and-Gradio", "chaos-water/Magic-BI", "mit-han-lab/duo-attention", "tzador/makedown", "opendatalab/DocLayout-YOLO", "whyhow-ai/knowledge-table", "lucasnewman/f5-tts-mlx"], "x": [0, 1, 3, 4, 9, 13, 40, 42, 45, 49, 50, 51, 52, 53, 54, 55, 56, 61, 62, 63, 74, 76, 79, 80, 83, 84, 85, 87, 92, 93, 96, 100, 103, 105, 108, 109, 110, 112, 113, 114, 115, 116, 117, 118], "y": [6041, 5620, 3889, 2999, 2058, 1370, 1061, 999, 912, 822, 817, 804, 774, 759, 731, 725, 714, 661, 648, 644, 544, 526, 504, 495, 460, 456, 453, 434, 418, 412, 388, 375, 365, 342, 327, 322, 317, 288, 281, 281, 274, 265, 259, 259], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "Batchfile<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "Batchfile", "text": ["Flowseal/zapret-discord-youtube"], "x": [2], "y": [4354], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "TypeScript<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "TypeScript", "text": ["xjdr-alt/entropix", "corbt/agent.exe", "langchain-ai/open-canvas", "origin-space/originui", "ethanniser/NextFaster", "leerob/next-self-host", "iAmCorey/awesome-indie-hacker-tools", "Brayden/starbasedb", "qifi-dev/qrs", "Azure-Samples/aoai-realtime-audio-sdk", "Nutlope/blinkshot", "LangbaseInc/BaseAI", "goncy/next-mercadopago", "aotakeda/learn-thing", "ajnart/subs", "adaline/gateway", "transitive-bullshit/openai-realtime-api", "yaakua/ai-outpainting-com"], "x": [5, 6, 8, 12, 37, 44, 58, 68, 69, 70, 75, 88, 95, 97, 99, 106, 111, 119], "y": [2827, 2298, 2088, 1399, 1195, 916, 697, 608, 598, 593, 534, 427, 388, 386, 378, 341, 291, 250], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "No language<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "No language", "text": ["Everlyn-Labs/Everlyn-1", "AdeiltonPereiraAlves/ShadowTool", "AdeiltonPereiraAlves/BlazingTool", "johnnycleiton07/BrtWallet", "johnnycleiton07/SeedGn", "GabrielDamiani/ShadowUnlocker", "GabrielDamiani/Shadow-ClipperMalvare", "dragonblood/Microsoft-Windows-and-Office-Activator-2024", "dragonblood/Spotify-Premium-for-free-2024", "aryabasu17/AquaticDiscord", "TikiTikiPlus/HWID-Spoofer-and-Cleaner-2024", "aryabasu17/wallet-stealer", "subrahmanyaug/Adobe-Animate-2024", "TikiTikiPlus/ESET-KeyGen-2024", "Redwingshunt/Adobe-After-Effects-2024-", "envincebal/IDM-Activation-Script-2024", "envincebal/Adobe-Acrobat-Pro-2024", "subrahmanyaug/Adobe-Express-2024", "Redwingshunt/Fl-Studio-2024", "Marcos-Dantas/ProtonVPN-Free-2024", "Marcos-Dantas/IDA-Pro-Keygen-2024", "Gabriel-Dias-Oliveira/Wemod-Premium-Unlocker-2024", "Gabriel-Dias-Oliveira/Sony-Vegas-Pro-2024", "GAIR-NLP/O1-Journey", "MahmoudShawkyy/CrystalTool", "huggingface/evaluation-guidebook", "likuai2010/auto-installer", "JusticeFighterDance/JusticeFighter110", "nnaemek2/Aimgen.ai-AI-Image-Generator-Website", "AgibotTech/agibot_x1_hardware", "NVlabs/Sana"], "x": [7, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 41, 47, 59, 64, 72, 77, 90, 102], "y": [2292, 1290, 1290, 1288, 1286, 1284, 1284, 1280, 1279, 1278, 1277, 1276, 1275, 1275, 1274, 1274, 1274, 1274, 1274, 1272, 1271, 1268, 1267, 1011, 830, 683, 644, 567, 522, 421, 368], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "JavaScript<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "JavaScript", "text": ["openai/openai-realtime-console", "jbilcke-hf/FacePoke", "openai/openai-realtime-api-beta"], "x": [10, 60, 71], "y": [1869, 671, 569], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "C<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "C", "text": ["StuckAtPrototype/Racer", "apoorvnandan/tensor.h"], "x": [11, 81], "y": [1822, 494], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "C#<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "C#", "text": ["ryujinx-mirror/ryujinx", "cmliu/CFnat-Windows-GUI", "GreemDev/Ryujinx"], "x": [14, 65, 94], "y": [1361, 633, 393], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "Jupyter Notebook<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "Jupyter Notebook", "text": ["NirDiamant/Prompt_Engineering", "rhymes-ai/Aria"], "x": [38, 57], "y": [1177, 703], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "CSS<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "CSS", "text": ["KoriIku/luxirty-search", "adriankarlen/textfox"], "x": [39, 66], "y": [1167, 630], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "PHP<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "PHP", "text": ["panphp/pan"], "x": [43], "y": [938], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "C++<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "C++", "text": ["AgibotTech/agibot_x1_infer", "RamboRogers/rfhunter", "splitbrain/clipscreen", "Wedot-Engine/WeDot"], "x": [46, 48, 82, 101], "y": [853, 827, 479, 370], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "Rust<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "Rust", "text": ["tokio-rs/toasty"], "x": [67], "y": [629], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "Go<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "Go", "text": ["andrearaponi/dito", "nianticlabs/venator"], "x": [73, 107], "y": [550, 340], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "Shell<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "Shell", "text": ["nh2/internal-contstrained-pki"], "x": [78], "y": [512], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "Kotlin<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "Kotlin", "text": ["jinweijie/notify-me", "skydoves/kmp-developer-roadmap"], "x": [86, 104], "y": [449, 359], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "TeX<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "TeX", "text": ["srush/awesome-o1"], "x": [89], "y": [423], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "Svelte<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "Svelte", "text": ["rishikanthc/Scriberr"], "x": [91], "y": [420], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "Swift<br>Stars: %{y}<br>Index: %{x}<br>Name: %{text}", "marker": {"size": 6}, "mode": "markers", "name": "Swift", "text": ["mainframecomputer/fullmoon-ios"], "x": [98], "y": [386], "type": "scatter", "xaxis": "x", "yaxis": "y"}, {"hovertemplate": "Language: %{x}<br>Average Stars: %{y:.0f}", "name": "Average Stars", "showlegend": false, "x": ["Batchfile", "C", "No language", "JavaScript", "Python", "Jupyter Notebook", "PHP", "TypeScript", "CSS", "C#", "C++", "Rust", "Shell", "Go", "TeX", "Svelte", "Kotlin", "Swift"], "y": [4354.0, 1158.0, 1143.483870967742, 1036.3333333333333, 956.6590909090909, 940.0, 938.0, 900.7777777777778, 898.5, 795.6666666666666, 632.25, 629.0, 512.0, 445.0, 423.0, 420.0, 404.0, 386.0], "type": "bar", "xaxis": "x2", "yaxis": "y2"}], "layout": {"template": {"data": {"barpolar": [{"marker": {"line": {"color": "white", "width": 0.5}, "pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "barpolar"}], "bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "white", "width": 0.5}, "pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "bar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "#C8D4E3", "linecolor": "#C8D4E3", "minorgridcolor": "#C8D4E3", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "#C8D4E3", "linecolor": "#C8D4E3", "minorgridcolor": "#C8D4E3", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram": [{"marker": {"pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "histogram"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatter": [{"fillpattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}, "type": "scatter"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "autotypenumbers": "strict", "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "white", "showlakes": true, "showland": true, "subunitcolor": "#C8D4E3"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "white", "polar": {"angularaxis": {"gridcolor": "#EBF0F8", "linecolor": "#EBF0F8", "ticks": ""}, "bgcolor": "white", "radialaxis": {"gridcolor": "#EBF0F8", "linecolor": "#EBF0F8", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "white", "gridcolor": "#DFE8F3", "gridwidth": 2, "linecolor": "#EBF0F8", "showbackground": true, "ticks": "", "zerolinecolor": "#EBF0F8"}, "yaxis": {"backgroundcolor": "white", "gridcolor": "#DFE8F3", "gridwidth": 2, "linecolor": "#EBF0F8", "showbackground": true, "ticks": "", "zerolinecolor": "#EBF0F8"}, "zaxis": {"backgroundcolor": "white", "gridcolor": "#DFE8F3", "gridwidth": 2, "linecolor": "#EBF0F8", "showbackground": true, "ticks": "", "zerolinecolor": "#EBF0F8"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "#DFE8F3", "linecolor": "#A2B1C6", "ticks": ""}, "baxis": {"gridcolor": "#DFE8F3", "linecolor": "#A2B1C6", "ticks": ""}, "bgcolor": "white", "caxis": {"gridcolor": "#DFE8F3", "linecolor": "#A2B1C6", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "#EBF0F8", "linecolor": "#EBF0F8", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "#EBF0F8", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "#EBF0F8", "linecolor": "#EBF0F8", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "#EBF0F8", "zerolinewidth": 2}}}, "xaxis": {"anchor": "y", "domain": [0.0, 1.0], "title": {"text": "Index"}}, "yaxis": {"anchor": "x", "domain": [0.575, 1.0], "title": {"text": "Number of Stars"}, "type": "log"}, "xaxis2": {"anchor": "y2", "domain": [0.0, 1.0], "title": {"text": "Programming Language"}, "tickangle": 45}, "yaxis2": {"anchor": "x2", "domain": [0.0, 0.425], "title": {"text": "Average Number of Stars"}}, "annotations": [{"font": {"size": 16}, "showarrow": false, "text": "Individual Repository Stars by Language", "x": 0.5, "xanchor": "center", "xref": "paper", "y": 1.0, "yanchor": "bottom", "yref": "paper"}, {"font": {"size": 16}, "showarrow": false, "text": "Average Stars by Language", "x": 0.5, "xanchor": "center", "xref": "paper", "y": 0.425, "yanchor": "bottom", "yref": "paper"}], "title": {"text": "Programming Languages Repository Stars Analysis", "x": 0.5}, "legend": {"yanchor": "top", "y": 0.6, "xanchor": "left", "x": 1.02}, "margin": {"r": 150}, "height": 1200, "width": 1123, "showlegend": true}};
+            Plotly.plot('chart', graphs, {});
+        </script>
+    </body>
+    </html>
+        
