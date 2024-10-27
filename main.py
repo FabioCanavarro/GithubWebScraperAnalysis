@@ -175,15 +175,23 @@ def main():
                 "User-Agent": "siti21532704",
                 "Accept": "application/json, text/plain, */*",
                 "x-github-api-version-selected": "2022-11-28",
-                "authorization": "token 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",
+                "authorization": "token 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",
             },
         )
-        print("Response status code:", response.status_code)
-        if str(response.status_code)[0] == 4:
-            return _extracted_from_get_data_6(response, "Error in response")
-        if json.loads(response.text)["total_count"] == 0:
-            return _extracted_from_get_data_6(response, "No repositories found")
-
+        try:
+            print("Response status code:", response.status_code)
+            if str(response.status_code)[0] == 4:
+                return _extracted_from_get_data_6(response, "Error in response")
+            if json.loads(response.text)["total_count"] == 0:
+                return _extracted_from_get_data_6(response, "No repositories found")
+        except Exception:
+            response = req.get(
+            url,
+            headers={
+                "Accept": "application/json, text/plain, */*",
+                "x-github-api-version-selected": "2022-11-28",
+            },
+        )
         responses = json.loads(response.text)["items"]
         repo = {
             i["full_name"]: {
