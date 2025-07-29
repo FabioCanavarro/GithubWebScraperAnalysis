@@ -23,7 +23,7 @@ import sys
 from colorama import Fore
 from flask_frozen import Freezer
 ### Global Variables
-GOOGLE_API_KEY = "AIzaSyDW-jOhDIzqx5Vs8kwEOX0NxO3vR1BRcYE"
+GOOGLE_API_KEY = ""
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 app = Flask(__name__)
